@@ -10,174 +10,293 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
     <style>
         :root {
-            --primary-color: #3498db;
-            --secondary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --light-bg: #f8f9fa;
-            --dark-bg: #343a40;
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4cc9f0;
+            --dark: #2b2d42;
+            --light: #f8f9fa;
+            --success: #4caf50;
+            --warning: #ff9800;
+            --danger: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--light-bg);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--light);
             color: #333;
+            line-height: 1.6;
         }
         
+        /* Header Styles */
         .navbar {
-            background-color: var(--secondary-color) !important;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 1rem 0;
         }
         
         .navbar-brand {
             font-weight: 700;
             font-size: 1.5rem;
             color: white !important;
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-brand i {
+            margin-right: 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        /* Navigation Tabs */
+        .nav-pills {
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            flex-wrap: nowrap;
         }
         
         .nav-pills .nav-link {
-            border-radius: 30px;
-            margin: 0 5px;
-            color: var(--secondary-color);
+            border-radius: 8px;
+            margin: 0 0.25rem;
+            color: var(--dark);
             font-weight: 500;
-            transition: all 0.3s;
+            padding: 0.75rem 1rem;
+            white-space: nowrap;
+            transition: all 0.3s ease;
         }
         
         .nav-pills .nav-link:hover {
-            background-color: rgba(52, 152, 219, 0.1);
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
         }
         
         .nav-pills .nav-link.active {
-            background-color: var(--primary-color);
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(67, 97, 238, 0.3);
         }
         
+        /* Tool Container */
         .tool-container {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            padding: 25px;
-            margin-bottom: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .tool-container:hover {
+            transform: translateY(-2px);
         }
         
         .tool-header {
             border-bottom: 1px solid #eee;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
         }
         
         .tool-header h2 {
-            color: var(--secondary-color);
+            color: var(--dark);
             font-weight: 600;
+            display: flex;
+            align-items: center;
         }
         
-        .btn-primary {
-            background-color: var(--primary-color);
-            border: none;
-            border-radius: 30px;
-            padding: 8px 20px;
-            font-weight: 500;
-            transition: all 0.3s;
+        .tool-header h2 i {
+            margin-right: 0.75rem;
+            color: var(--primary);
         }
         
-        .btn-primary:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
+        .tool-header p {
+            color: #666;
+            margin-top: 0.25rem;
         }
         
+        /* Form Controls */
         .form-control, .form-select {
-            border-radius: 8px;
             border: 1px solid #ddd;
-            padding: 10px 15px;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
         
         .form-control:focus, .form-select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
         }
         
-        .output-container {
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
+        /* Buttons */
+        .btn {
             border-radius: 8px;
-            padding: 15px;
-            min-height: 200px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+        }
+        
+        .btn-outline-primary {
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+        }
+        
+        .btn-outline-primary:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-outline-secondary {
+            border: 2px solid #6c757d;
+            color: #6c757d;
+            background: transparent;
+        }
+        
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            color: white;
+        }
+        
+        /* Output Container */
+        .output-container {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 1rem;
+            min-height: 150px;
             max-height: 400px;
             overflow-y: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
         
-        .gradient-preview {
-            height: 150px;
+        /* Code Editor */
+        .CodeMirror {
             border-radius: 8px;
-            margin: 15px 0;
+            border: 1px solid #ddd;
+            font-size: 0.9rem;
         }
         
+        /* Gradient Preview */
+        .gradient-preview {
+            height: 120px;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Favicon Preview */
         .favicon-preview {
-            width: 64px;
-            height: 64px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin: 15px 0;
+            width: 80px;
+            height: 80px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 1rem 0;
             display: flex;
             align-items: center;
             justify-content: center;
             background-color: #f8f9fa;
+            overflow: hidden;
         }
         
+        /* Password Strength */
         .password-strength {
-            height: 5px;
-            border-radius: 5px;
-            margin-top: 10px;
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 0.5rem;
+            background: #e9ecef;
+            overflow: hidden;
         }
         
-        .tab-content {
-            padding-top: 20px;
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s ease;
         }
         
-        .CodeMirror {
-            height: 300px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-        }
-        
-        .footer {
-            background-color: var(--secondary-color);
-            color: white;
-            padding: 20px 0;
-            margin-top: 50px;
-            text-align: center;
-        }
-        
-        .copy-btn {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-        
-        .copy-btn:hover {
-            background-color: #5a6268;
-        }
-        
+        /* Notification */
         .notification {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 15px 25px;
-            background-color: #28a745;
+            padding: 1rem 1.5rem;
+            background: var(--success);
             color: white;
             border-radius: 8px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 1000;
             display: none;
+            align-items: center;
+        }
+        
+        .notification i {
+            margin-right: 0.5rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            text-align: center;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tool-container {
+                padding: 1.5rem;
+            }
+            
+            .nav-pills {
+                justify-content: flex-start;
+                padding: 0.25rem;
+            }
+            
+            .nav-pills .nav-link {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fas fa-tools me-2"></i>DevTools Pro</a>
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-tools"></i>
+                DevTools Pro
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -194,67 +313,70 @@
         </div>
     </nav>
 
-    <div class="container mt-4">
-        <ul class="nav nav-pills mb-4 justify-content-center" id="toolTabs" role="tablist">
+    <!-- Main Content -->
+    <div class="container my-4">
+        <!-- Tool Tabs -->
+        <ul class="nav nav-pills justify-content-center" id="toolTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="json-tab" data-bs-toggle="pill" data-bs-target="#json" type="button" role="tab">
-                    <i class="fas fa-code me-1"></i> JSON
+                    <i class="fas fa-code"></i> JSON
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="markdown-tab" data-bs-toggle="pill" data-bs-target="#markdown" type="button" role="tab">
-                    <i class="fab fa-markdown me-1"></i> Markdown
+                    <i class="fab fa-markdown"></i> Markdown
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="editor-tab" data-bs-toggle="pill" data-bs-target="#editor" type="button" role="tab">
-                    <i class="fas fa-laptop-code me-1"></i> Code Editor
+                    <i class="fas fa-laptop-code"></i> Code Editor
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="regex-tab" data-bs-toggle="pill" data-bs-target="#regex" type="button" role="tab">
-                    <i class="fas fa-search me-1"></i> Regex
+                    <i class="fas fa-search"></i> Regex
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="url-tab" data-bs-toggle="pill" data-bs-target="#url" type="button" role="tab">
-                    <i class="fas fa-link me-1"></i> URL Shortener
+                    <i class="fas fa-link"></i> URL Shortener
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="gradient-tab" data-bs-toggle="pill" data-bs-target="#gradient" type="button" role="tab">
-                    <i class="fas fa-palette me-1"></i> Gradient
+                    <i class="fas fa-palette"></i> Gradient
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="favicon-tab" data-bs-toggle="pill" data-bs-target="#favicon" type="button" role="tab">
-                    <i class="fas fa-icons me-1"></i> Favicon
+                    <i class="fas fa-icons"></i> Favicon
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="api-tab" data-bs-toggle="pill" data-bs-target="#api" type="button" role="tab">
-                    <i class="fas fa-plug me-1"></i> API Tester
+                    <i class="fas fa-plug"></i> API Tester
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="password-tab" data-bs-toggle="pill" data-bs-target="#password" type="button" role="tab">
-                    <i class="fas fa-key me-1"></i> Password
+                    <i class="fas fa-key"></i> Password
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="data-tab" data-bs-toggle="pill" data-bs-target="#data" type="button" role="tab">
-                    <i class="fas fa-database me-1"></i> Fake Data
+                    <i class="fas fa-database"></i> Fake Data
                 </button>
             </li>
         </ul>
 
+        <!-- Tool Content -->
         <div class="tab-content" id="toolTabsContent">
             <!-- JSON Formatter & Validator -->
             <div class="tab-pane fade show active" id="json" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-code me-2"></i>JSON Formatter & Validator</h2>
-                        <p class="text-muted">Format and validate JSON data</p>
+                        <h2><i class="fas fa-code"></i> JSON Formatter & Validator</h2>
+                        <p class="text-muted">Format, validate, and minify JSON data</p>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
@@ -262,10 +384,16 @@
                                 <label for="jsonInput" class="form-label">Input JSON</label>
                                 <textarea class="form-control" id="jsonInput" rows="10" placeholder="Enter your JSON data here..."></textarea>
                             </div>
-                            <div class="d-flex gap-2">
-                                <button class="btn btn-primary" id="formatJsonBtn">Format & Validate</button>
-                                <button class="btn btn-outline-secondary" id="minifyJsonBtn">Minify</button>
-                                <button class="btn btn-outline-secondary" id="clearJsonBtn">Clear</button>
+                            <div class="d-flex gap-2 flex-wrap">
+                                <button class="btn btn-primary" id="formatJsonBtn">
+                                    <i class="fas fa-magic"></i> Format & Validate
+                                </button>
+                                <button class="btn btn-outline-secondary" id="minifyJsonBtn">
+                                    <i class="fas fa-compress"></i> Minify
+                                </button>
+                                <button class="btn btn-outline-secondary" id="clearJsonBtn">
+                                    <i class="fas fa-trash"></i> Clear
+                                </button>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -273,7 +401,9 @@
                                 <label for="jsonOutput" class="form-label">Output</label>
                                 <div class="output-container" id="jsonOutput">Formatted JSON will appear here...</div>
                             </div>
-                            <button class="btn btn-outline-primary" id="copyJsonBtn">Copy to Clipboard</button>
+                            <button class="btn btn-outline-primary" id="copyJsonBtn">
+                                <i class="fas fa-copy"></i> Copy to Clipboard
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -283,18 +413,22 @@
             <div class="tab-pane fade" id="markdown" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fab fa-markdown me-2"></i>Markdown to HTML Converter</h2>
-                        <p class="text-muted">Convert Markdown to HTML</p>
+                        <h2><i class="fab fa-markdown"></i> Markdown to HTML Converter</h2>
+                        <p class="text-muted">Convert Markdown to HTML with live preview</p>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="markdownInput" class="form-label">Markdown Input</label>
-                                <textarea class="form-control" id="markdownInput" rows="10" placeholder="Enter your Markdown here..."></textarea>
+                                <textarea class="form-control" id="markdownInput" rows="10" placeholder="# Heading&#10;## Subheading&#10;**Bold text** and *italic text*&#10;- List item 1&#10;- List item 2"></textarea>
                             </div>
                             <div class="d-flex gap-2">
-                                <button class="btn btn-primary" id="convertMarkdownBtn">Convert to HTML</button>
-                                <button class="btn btn-outline-secondary" id="clearMarkdownBtn">Clear</button>
+                                <button class="btn btn-primary" id="convertMarkdownBtn">
+                                    <i class="fas fa-exchange-alt"></i> Convert to HTML
+                                </button>
+                                <button class="btn btn-outline-secondary" id="clearMarkdownBtn">
+                                    <i class="fas fa-trash"></i> Clear
+                                </button>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -306,7 +440,9 @@
                                 <label for="htmlPreview" class="form-label">Preview</label>
                                 <div class="output-container" id="htmlPreview">Preview will appear here...</div>
                             </div>
-                            <button class="btn btn-outline-primary" id="copyHtmlBtn">Copy HTML</button>
+                            <button class="btn btn-outline-primary" id="copyHtmlBtn">
+                                <i class="fas fa-copy"></i> Copy HTML
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -316,7 +452,7 @@
             <div class="tab-pane fade" id="editor" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-laptop-code me-2"></i>Online Code Editor</h2>
+                        <h2><i class="fas fa-laptop-code"></i> Online Code Editor</h2>
                         <p class="text-muted">Write and run code in your browser</p>
                     </div>
                     <div class="row mb-3">
@@ -332,10 +468,16 @@
                             </select>
                         </div>
                         <div class="col-md-8">
-                            <div class="d-flex align-items-end h-100">
-                                <button class="btn btn-primary" id="runCodeBtn">Run Code</button>
-                                <button class="btn btn-outline-secondary ms-2" id="clearCodeBtn">Clear</button>
-                                <button class="btn btn-outline-secondary ms-2" id="downloadCodeBtn">Download</button>
+                            <div class="d-flex align-items-end h-100 gap-2">
+                                <button class="btn btn-primary" id="runCodeBtn">
+                                    <i class="fas fa-play"></i> Run Code
+                                </button>
+                                <button class="btn btn-outline-secondary" id="clearCodeBtn">
+                                    <i class="fas fa-trash"></i> Clear
+                                </button>
+                                <button class="btn btn-outline-secondary" id="downloadCodeBtn">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -354,7 +496,7 @@
             <div class="tab-pane fade" id="regex" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-search me-2"></i>Regex Tester</h2>
+                        <h2><i class="fas fa-search"></i> Regex Tester</h2>
                         <p class="text-muted">Test and debug regular expressions</p>
                     </div>
                     <div class="row mb-3">
@@ -365,17 +507,19 @@
                             </div>
                             <div class="mb-3">
                                 <label for="regexFlags" class="form-label">Flags</label>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="flagGlobal" value="g">
-                                    <label class="form-check-label" for="flagGlobal">Global (g)</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="flagCaseInsensitive" value="i">
-                                    <label class="form-check-label" for="flagCaseInsensitive">Case Insensitive (i)</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="flagMultiline" value="m">
-                                    <label class="form-check-label" for="flagMultiline">Multiline (m)</label>
+                                <div class="d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flagGlobal" value="g">
+                                        <label class="form-check-label" for="flagGlobal">Global (g)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flagCaseInsensitive" value="i">
+                                        <label class="form-check-label" for="flagCaseInsensitive">Case Insensitive (i)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="flagMultiline" value="m">
+                                        <label class="form-check-label" for="flagMultiline">Multiline (m)</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -384,8 +528,14 @@
                                 <label for="regexTestString" class="form-label">Test String</label>
                                 <textarea class="form-control" id="regexTestString" rows="3" placeholder="Enter text to test against..."></textarea>
                             </div>
-                            <button class="btn btn-primary" id="testRegexBtn">Test Regex</button>
-                            <button class="btn btn-outline-secondary ms-2" id="clearRegexBtn">Clear</button>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" id="testRegexBtn">
+                                    <i class="fas fa-search"></i> Test Regex
+                                </button>
+                                <button class="btn btn-outline-secondary" id="clearRegexBtn">
+                                    <i class="fas fa-trash"></i> Clear
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -409,7 +559,7 @@
             <div class="tab-pane fade" id="url" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-link me-2"></i>URL Shortener</h2>
+                        <h2><i class="fas fa-link"></i> URL Shortener</h2>
                         <p class="text-muted">Create short, shareable URLs</p>
                     </div>
                     <div class="row">
@@ -418,7 +568,9 @@
                                 <label for="longUrl" class="form-label">Enter Long URL</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="longUrl" placeholder="https://example.com/very/long/url...">
-                                    <button class="btn btn-primary" id="shortenUrlBtn">Shorten URL</button>
+                                    <button class="btn btn-primary" id="shortenUrlBtn">
+                                        <i class="fas fa-compress"></i> Shorten URL
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -435,7 +587,9 @@
                                 <label for="shortUrl" class="form-label">Short URL</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="shortUrl" readonly placeholder="Short URL will appear here...">
-                                    <button class="btn btn-outline-secondary" id="copyShortUrlBtn">Copy</button>
+                                    <button class="btn btn-outline-secondary" id="copyShortUrlBtn">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -451,7 +605,7 @@
             <div class="tab-pane fade" id="gradient" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-palette me-2"></i>CSS Gradient Generator</h2>
+                        <h2><i class="fas fa-palette"></i> CSS Gradient Generator</h2>
                         <p class="text-muted">Create beautiful CSS gradients</p>
                     </div>
                     <div class="row">
@@ -478,31 +632,41 @@
                                 <label for="colorStops" class="form-label">Color Stops</label>
                                 <div id="colorStopsContainer">
                                     <div class="input-group mb-2">
-                                        <input type="color" class="form-control form-control-color color-stop" value="#3498db">
+                                        <input type="color" class="form-control form-control-color color-stop" value="#4361ee">
                                         <input type="number" class="form-control color-position" value="0" min="0" max="100">
                                         <span class="input-group-text">%</span>
-                                        <button class="btn btn-outline-danger remove-color-stop"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-outline-danger remove-color-stop">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                     <div class="input-group mb-2">
-                                        <input type="color" class="form-control form-control-color color-stop" value="#e74c3c">
+                                        <input type="color" class="form-control form-control-color color-stop" value="#4cc9f0">
                                         <input type="number" class="form-control color-position" value="100" min="0" max="100">
                                         <span class="input-group-text">%</span>
-                                        <button class="btn btn-outline-danger remove-color-stop"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-outline-danger remove-color-stop">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
                                     </div>
                                 </div>
-                                <button class="btn btn-sm btn-outline-secondary mt-2" id="addColorStopBtn">Add Color Stop</button>
+                                <button class="btn btn-sm btn-outline-secondary mt-2" id="addColorStopBtn">
+                                    <i class="fas fa-plus"></i> Add Color Stop
+                                </button>
                             </div>
                             <div class="mb-3">
                                 <div class="gradient-preview" id="gradientPreview"></div>
                             </div>
-                            <button class="btn btn-primary" id="generateGradientBtn">Generate CSS</button>
+                            <button class="btn btn-primary" id="generateGradientBtn">
+                                <i class="fas fa-magic"></i> Generate CSS
+                            </button>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="gradientCss" class="form-label">CSS Code</label>
                                 <textarea class="form-control" id="gradientCss" rows="10" readonly></textarea>
                             </div>
-                            <button class="btn btn-outline-primary" id="copyGradientBtn">Copy CSS</button>
+                            <button class="btn btn-outline-primary" id="copyGradientBtn">
+                                <i class="fas fa-copy"></i> Copy CSS
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -512,7 +676,7 @@
             <div class="tab-pane fade" id="favicon" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-icons me-2"></i>Favicon Generator</h2>
+                        <h2><i class="fas fa-icons"></i> Favicon Generator</h2>
                         <p class="text-muted">Create favicons from images</p>
                     </div>
                     <div class="row">
@@ -534,19 +698,15 @@
                             </div>
                             <div class="mb-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="generateIco">
-                                    <label class="form-check-label" for="generateIco">
-                                        Generate .ico file (Windows)
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="generatePng">
+                                    <input class="form-check-input" type="checkbox" id="generatePng" checked>
                                     <label class="form-check-label" for="generatePng">
                                         Generate .png file
                                     </label>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" id="generateFaviconBtn">Generate Favicon</button>
+                            <button class="btn btn-primary" id="generateFaviconBtn">
+                                <i class="fas fa-magic"></i> Generate Favicon
+                            </button>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -570,7 +730,7 @@
             <div class="tab-pane fade" id="api" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-plug me-2"></i>Online API Tester</h2>
+                        <h2><i class="fas fa-plug"></i> Online API Tester</h2>
                         <p class="text-muted">Test REST APIs like Postman</p>
                     </div>
                     <div class="row mb-3">
@@ -589,8 +749,10 @@
                         <div class="col-md-9">
                             <label for="apiUrl" class="form-label">URL</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" id="apiUrl" placeholder="https://api.example.com/endpoint">
-                                <button class="btn btn-primary" id="sendApiBtn">Send Request</button>
+                                <input type="text" class="form-control" id="apiUrl" placeholder="https://jsonplaceholder.typicode.com/posts/1">
+                                <button class="btn btn-primary" id="sendApiBtn">
+                                    <i class="fas fa-paper-plane"></i> Send Request
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -601,10 +763,14 @@
                                 <div class="input-group mb-2">
                                     <input type="text" class="form-control header-key" placeholder="Header name">
                                     <input type="text" class="form-control header-value" placeholder="Header value">
-                                    <button class="btn btn-outline-danger remove-header"><i class="fas fa-trash"></i></button>
+                                    <button class="btn btn-outline-danger remove-header">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <button class="btn btn-sm btn-outline-secondary mt-2" id="addHeaderBtn">Add Header</button>
+                            <button class="btn btn-sm btn-outline-secondary mt-2" id="addHeaderBtn">
+                                <i class="fas fa-plus"></i> Add Header
+                            </button>
                         </div>
                         <div class="col-md-6">
                             <label for="apiBody" class="form-label">Body (JSON)</label>
@@ -636,7 +802,7 @@
             <div class="tab-pane fade" id="password" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-key me-2"></i>Password Generator</h2>
+                        <h2><i class="fas fa-key"></i> Password Generator</h2>
                         <p class="text-muted">Generate strong and secure passwords</p>
                     </div>
                     <div class="row">
@@ -681,16 +847,22 @@
                                     </label>
                                 </div>
                             </div>
-                            <button class="btn btn-primary" id="generatePasswordBtn">Generate Password</button>
+                            <button class="btn btn-primary" id="generatePasswordBtn">
+                                <i class="fas fa-sync"></i> Generate Password
+                            </button>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="generatedPassword" class="form-label">Generated Password</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="generatedPassword" readonly>
-                                    <button class="btn btn-outline-secondary" id="copyPasswordBtn">Copy</button>
+                                    <button class="btn btn-outline-secondary" id="copyPasswordBtn">
+                                        <i class="fas fa-copy"></i> Copy
+                                    </button>
                                 </div>
-                                <div class="password-strength" id="passwordStrength"></div>
+                                <div class="password-strength">
+                                    <div class="password-strength-bar" id="passwordStrengthBar"></div>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="passwordHistory" class="form-label">Password History</label>
@@ -705,7 +877,7 @@
             <div class="tab-pane fade" id="data" role="tabpanel">
                 <div class="tool-container">
                     <div class="tool-header">
-                        <h2><i class="fas fa-database me-2"></i>Fake Data Generator</h2>
+                        <h2><i class="fas fa-database"></i> Fake Data Generator</h2>
                         <p class="text-muted">Generate realistic fake data for testing</p>
                     </div>
                     <div class="row">
@@ -753,15 +925,23 @@
                                     <option value="list">List</option>
                                 </select>
                             </div>
-                            <button class="btn btn-primary" id="generateDataBtn">Generate Data</button>
+                            <button class="btn btn-primary" id="generateDataBtn">
+                                <i class="fas fa-magic"></i> Generate Data
+                            </button>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="generatedData" class="form-label">Generated Data</label>
                                 <div class="output-container" id="generatedData">Generated data will appear here...</div>
                             </div>
-                            <button class="btn btn-outline-primary" id="copyDataBtn">Copy Data</button>
-                            <button class="btn btn-outline-secondary ms-2" id="downloadDataBtn">Download</button>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-primary" id="copyDataBtn">
+                                    <i class="fas fa-copy"></i> Copy Data
+                                </button>
+                                <button class="btn btn-outline-secondary" id="downloadDataBtn">
+                                    <i class="fas fa-download"></i> Download
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -769,15 +949,21 @@
         </div>
     </div>
 
-    <div class="notification" id="notification">Copied to clipboard!</div>
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span id="notificationText">Copied to clipboard!</span>
+    </div>
 
-    <footer class="footer">
+    <!-- Footer -->
+    <footer>
         <div class="container">
             <p>&copy; 2023 DevTools Pro. All rights reserved.</p>
             <p>Made with <i class="fas fa-heart text-danger"></i> for developers</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
@@ -835,19 +1021,40 @@ helloWorld();`,
             codeEditor.setOption('mode', mode);
         });
 
+        // Notification function
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.style.backgroundColor = type === 'success' ? 'var(--success)' : 'var(--danger)';
+            notification.style.display = 'flex';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
         // JSON Formatter & Validator
         document.getElementById('formatJsonBtn').addEventListener('click', function() {
             const input = document.getElementById('jsonInput').value;
             const output = document.getElementById('jsonOutput');
             
+            if (!input.trim()) {
+                showNotification('Please enter JSON data', 'error');
+                return;
+            }
+            
             try {
                 const parsed = JSON.parse(input);
                 const formatted = JSON.stringify(parsed, null, 2);
                 output.textContent = formatted;
-                output.style.color = 'green';
+                output.style.color = '#333';
+                showNotification('JSON formatted successfully');
             } catch (error) {
                 output.textContent = `Error: ${error.message}`;
-                output.style.color = 'red';
+                output.style.color = 'var(--danger)';
+                showNotification('Invalid JSON format', 'error');
             }
         });
 
@@ -855,14 +1062,21 @@ helloWorld();`,
             const input = document.getElementById('jsonInput').value;
             const output = document.getElementById('jsonOutput');
             
+            if (!input.trim()) {
+                showNotification('Please enter JSON data', 'error');
+                return;
+            }
+            
             try {
                 const parsed = JSON.parse(input);
                 const minified = JSON.stringify(parsed);
                 output.textContent = minified;
-                output.style.color = 'green';
+                output.style.color = '#333';
+                showNotification('JSON minified successfully');
             } catch (error) {
                 output.textContent = `Error: ${error.message}`;
-                output.style.color = 'red';
+                output.style.color = 'var(--danger)';
+                showNotification('Invalid JSON format', 'error');
             }
         });
 
@@ -874,9 +1088,13 @@ helloWorld();`,
 
         document.getElementById('copyJsonBtn').addEventListener('click', function() {
             const output = document.getElementById('jsonOutput').textContent;
-            navigator.clipboard.writeText(output).then(() => {
-                showNotification('Copied to clipboard!');
-            });
+            if (output && output !== 'Formatted JSON will appear here...') {
+                navigator.clipboard.writeText(output).then(() => {
+                    showNotification('Copied to clipboard!');
+                });
+            } else {
+                showNotification('Nothing to copy', 'error');
+            }
         });
 
         // Markdown to HTML Converter
@@ -885,9 +1103,21 @@ helloWorld();`,
             const htmlOutput = document.getElementById('htmlOutput');
             const htmlPreview = document.getElementById('htmlPreview');
             
-            const html = marked.parse(input);
-            htmlOutput.textContent = html;
-            htmlPreview.innerHTML = html;
+            if (!input.trim()) {
+                showNotification('Please enter Markdown content', 'error');
+                return;
+            }
+            
+            try {
+                const html = marked.parse(input);
+                htmlOutput.textContent = html;
+                htmlPreview.innerHTML = html;
+                showNotification('Markdown converted successfully');
+            } catch (error) {
+                htmlOutput.textContent = `Error: ${error.message}`;
+                htmlPreview.innerHTML = `Error: ${error.message}`;
+                showNotification('Failed to convert Markdown', 'error');
+            }
         });
 
         document.getElementById('clearMarkdownBtn').addEventListener('click', function() {
@@ -898,9 +1128,13 @@ helloWorld();`,
 
         document.getElementById('copyHtmlBtn').addEventListener('click', function() {
             const html = document.getElementById('htmlOutput').textContent;
-            navigator.clipboard.writeText(html).then(() => {
-                showNotification('Copied to clipboard!');
-            });
+            if (html && html !== 'HTML will appear here...') {
+                navigator.clipboard.writeText(html).then(() => {
+                    showNotification('Copied to clipboard!');
+                });
+            } else {
+                showNotification('Nothing to copy', 'error');
+            }
         });
 
         // Code Editor
@@ -909,7 +1143,11 @@ helloWorld();`,
             const output = document.getElementById('codeOutput');
             const language = document.getElementById('languageSelect').value;
             
-            // Clear previous output
+            if (!code.trim()) {
+                showNotification('Please enter code to run', 'error');
+                return;
+            }
+            
             output.textContent = '';
             
             if (language === 'javascript') {
@@ -934,11 +1172,15 @@ helloWorld();`,
                     } else {
                         output.textContent = 'Code executed successfully. No output.';
                     }
+                    
+                    showNotification('Code executed successfully');
                 } catch (error) {
                     output.textContent = `Error: ${error.message}`;
+                    showNotification('Error executing code', 'error');
                 }
             } else {
                 output.textContent = 'Code execution is only supported for JavaScript in this demo.';
+                showNotification('Only JavaScript execution is supported', 'error');
             }
         });
 
@@ -959,6 +1201,11 @@ helloWorld();`,
                 'json': 'json'
             }[language] || 'txt';
             
+            if (!code.trim()) {
+                showNotification('No code to download', 'error');
+                return;
+            }
+            
             const blob = new Blob([code], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -968,6 +1215,7 @@ helloWorld();`,
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+            showNotification('Code downloaded successfully');
         });
 
         // Regex Tester
@@ -983,6 +1231,16 @@ helloWorld();`,
             const matchesOutput = document.getElementById('regexMatches');
             const detailsOutput = document.getElementById('regexDetails');
             
+            if (!pattern.trim()) {
+                showNotification('Please enter a regex pattern', 'error');
+                return;
+            }
+            
+            if (!testString.trim()) {
+                showNotification('Please enter a test string', 'error');
+                return;
+            }
+            
             try {
                 const regex = new RegExp(pattern, flags);
                 const matches = testString.match(regex);
@@ -990,13 +1248,16 @@ helloWorld();`,
                 if (matches) {
                     matchesOutput.textContent = matches.join('\n');
                     detailsOutput.textContent = `Found ${matches.length} match(es).`;
+                    showNotification('Regex test completed');
                 } else {
                     matchesOutput.textContent = 'No matches found.';
                     detailsOutput.textContent = 'Pattern not found in the test string.';
+                    showNotification('No matches found');
                 }
             } catch (error) {
                 matchesOutput.textContent = '';
                 detailsOutput.textContent = `Error: ${error.message}`;
+                showNotification('Invalid regex pattern', 'error');
             }
         });
 
@@ -1017,13 +1278,20 @@ helloWorld();`,
             const shortUrlOutput = document.getElementById('shortUrl');
             const statsOutput = document.getElementById('urlStats');
             
-            if (!longUrl) {
-                showNotification('Please enter a URL to shorten');
+            if (!longUrl.trim()) {
+                showNotification('Please enter a URL to shorten', 'error');
                 return;
             }
             
-            // In a real application, this would be an API call
-            // For demo purposes, we'll generate a random short URL
+            // Simple URL validation
+            try {
+                new URL(longUrl);
+            } catch {
+                showNotification('Please enter a valid URL', 'error');
+                return;
+            }
+            
+            // Generate short URL (simulated)
             const randomId = customAlias || Math.random().toString(36).substring(2, 8);
             const shortUrl = `${window.location.origin}/${randomId}`;
             
@@ -1034,6 +1302,8 @@ helloWorld();`,
                 <p><strong>Created:</strong> ${new Date().toLocaleString()}</p>
                 <p><strong>Clicks:</strong> 0</p>
             `;
+            
+            showNotification('URL shortened successfully');
         });
 
         document.getElementById('copyShortUrlBtn').addEventListener('click', function() {
@@ -1042,6 +1312,8 @@ helloWorld();`,
                 navigator.clipboard.writeText(shortUrl).then(() => {
                     showNotification('Copied to clipboard!');
                 });
+            } else {
+                showNotification('No URL to copy', 'error');
             }
         });
 
@@ -1051,10 +1323,12 @@ helloWorld();`,
             const newStop = document.createElement('div');
             newStop.className = 'input-group mb-2';
             newStop.innerHTML = `
-                <input type="color" class="form-control form-control-color color-stop" value="#${Math.floor(Math.random()*16777215).toString(16)}">
+                <input type="color" class="form-control form-control-color color-stop" value="#${Math.floor(Math.random()*16777215).toString(16).padStart(6, '0')}">
                 <input type="number" class="form-control color-position" value="${Math.floor(Math.random() * 100)}" min="0" max="100">
                 <span class="input-group-text">%</span>
-                <button class="btn btn-outline-danger remove-color-stop"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-outline-danger remove-color-stop">
+                    <i class="fas fa-trash"></i>
+                </button>
             `;
             container.appendChild(newStop);
             
@@ -1068,7 +1342,11 @@ helloWorld();`,
         document.querySelectorAll('.remove-color-stop').forEach(button => {
             button.addEventListener('click', function() {
                 const container = document.getElementById('colorStopsContainer');
-                container.removeChild(button.parentElement);
+                if (container.children.length > 2) {
+                    container.removeChild(button.parentElement);
+                } else {
+                    showNotification('At least two color stops are required', 'error');
+                }
             });
         });
 
@@ -1088,26 +1366,30 @@ helloWorld();`,
             
             document.getElementById('gradientCss').value = css;
             document.getElementById('gradientPreview').style.background = gradient;
+            showNotification('Gradient generated successfully');
         });
 
         document.getElementById('copyGradientBtn').addEventListener('click', function() {
             const css = document.getElementById('gradientCss').value;
-            navigator.clipboard.writeText(css).then(() => {
-                showNotification('Copied to clipboard!');
-            });
+            if (css) {
+                navigator.clipboard.writeText(css).then(() => {
+                    showNotification('Copied to clipboard!');
+                });
+            } else {
+                showNotification('No gradient to copy', 'error');
+            }
         });
 
         // Favicon Generator
         document.getElementById('generateFaviconBtn').addEventListener('click', function() {
             const fileInput = document.getElementById('faviconUpload');
             const size = parseInt(document.getElementById('faviconSize').value);
-            const generateIco = document.getElementById('generateIco').checked;
             const generatePng = document.getElementById('generatePng').checked;
             const preview = document.getElementById('faviconPreview');
             const downloadLinks = document.getElementById('faviconDownloadLinks');
             
             if (!fileInput.files.length) {
-                showNotification('Please select an image');
+                showNotification('Please select an image', 'error');
                 return;
             }
             
@@ -1133,6 +1415,8 @@ helloWorld();`,
                     previewImg.src = canvas.toDataURL('image/png');
                     previewImg.width = size;
                     previewImg.height = size;
+                    previewImg.style.maxWidth = '100%';
+                    previewImg.style.height = 'auto';
                     preview.appendChild(previewImg);
                     
                     // Generate download links
@@ -1143,20 +1427,11 @@ helloWorld();`,
                         pngLink.href = canvas.toDataURL('image/png');
                         pngLink.download = `favicon_${size}x${size}.png`;
                         pngLink.className = 'btn btn-outline-primary';
-                        pngLink.textContent = `Download PNG (${size}x${size})`;
+                        pngLink.innerHTML = '<i class="fas fa-download"></i> Download PNG';
                         downloadLinks.appendChild(pngLink);
                     }
                     
-                    if (generateIco) {
-                        // For demo purposes, we'll just create a PNG file named as ICO
-                        // In a real application, you would need a library to convert to ICO format
-                        const icoLink = document.createElement('a');
-                        icoLink.href = canvas.toDataURL('image/png');
-                        icoLink.download = `favicon.ico`;
-                        icoLink.className = 'btn btn-outline-primary';
-                        icoLink.textContent = `Download ICO (simulated)`;
-                        downloadLinks.appendChild(icoLink);
-                    }
+                    showNotification('Favicon generated successfully');
                 };
                 img.src = e.target.result;
             };
@@ -1172,7 +1447,9 @@ helloWorld();`,
             newHeader.innerHTML = `
                 <input type="text" class="form-control header-key" placeholder="Header name">
                 <input type="text" class="form-control header-value" placeholder="Header value">
-                <button class="btn btn-outline-danger remove-header"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-outline-danger remove-header">
+                    <i class="fas fa-trash"></i>
+                </button>
             `;
             container.appendChild(newHeader);
             
@@ -1186,7 +1463,11 @@ helloWorld();`,
         document.querySelectorAll('.remove-header').forEach(button => {
             button.addEventListener('click', function() {
                 const container = document.getElementById('apiHeadersContainer');
-                container.removeChild(button.parentElement);
+                if (container.children.length > 1) {
+                    container.removeChild(button.parentElement);
+                } else {
+                    showNotification('At least one header is required', 'error');
+                }
             });
         });
 
@@ -1198,16 +1479,24 @@ helloWorld();`,
             const headersOutput = document.getElementById('apiHeadersResponse');
             const statusOutput = document.getElementById('apiStatus');
             
-            if (!url) {
-                showNotification('Please enter a URL');
+            if (!url.trim()) {
+                showNotification('Please enter a URL', 'error');
+                return;
+            }
+            
+            // Simple URL validation
+            try {
+                new URL(url);
+            } catch {
+                showNotification('Please enter a valid URL', 'error');
                 return;
             }
             
             // Collect headers
             const headers = {};
             document.querySelectorAll('.header-key').forEach((keyInput, index) => {
-                const key = keyInput.value;
-                const value = document.querySelectorAll('.header-value')[index].value;
+                const key = keyInput.value.trim();
+                const value = document.querySelectorAll('.header-value')[index].value.trim();
                 if (key && value) {
                     headers[key] = value;
                 }
@@ -1228,8 +1517,11 @@ helloWorld();`,
                     options.body = body;
                 }
                 
-                // Note: This will fail for CORS requests in a browser environment
-                // In a real application, you would need a proxy server
+                // Show loading state
+                responseOutput.textContent = 'Loading...';
+                headersOutput.textContent = 'Loading...';
+                statusOutput.textContent = 'Loading...';
+                
                 const response = await fetch(url, options);
                 
                 // Get response headers
@@ -1255,15 +1547,18 @@ helloWorld();`,
                 
                 // Color code status
                 if (response.ok) {
-                    statusOutput.style.color = 'green';
+                    statusOutput.style.color = 'var(--success)';
                 } else {
-                    statusOutput.style.color = 'red';
+                    statusOutput.style.color = 'var(--danger)';
                 }
+                
+                showNotification('Request completed successfully');
             } catch (error) {
                 responseOutput.textContent = `Error: ${error.message}`;
                 headersOutput.textContent = '';
                 statusOutput.textContent = 'Request failed';
-                statusOutput.style.color = 'red';
+                statusOutput.style.color = 'var(--danger)';
+                showNotification('Request failed', 'error');
             }
         });
 
@@ -1299,7 +1594,7 @@ helloWorld();`,
             }
             
             if (!charset) {
-                showNotification('Please select at least one character type');
+                showNotification('Please select at least one character type', 'error');
                 return;
             }
             
@@ -1319,10 +1614,12 @@ helloWorld();`,
             historyItem.className = 'mb-1';
             historyItem.textContent = `${new Date().toLocaleTimeString()}: ${password}`;
             history.prepend(historyItem);
+            
+            showNotification('Password generated successfully');
         });
 
         function calculatePasswordStrength(password) {
-            const strengthBar = document.getElementById('passwordStrength');
+            const strengthBar = document.getElementById('passwordStrengthBar');
             let strength = 0;
             
             // Length contributes to strength
@@ -1342,11 +1639,11 @@ helloWorld();`,
             
             // Set color based on strength
             if (strength < 40) {
-                strengthBar.style.backgroundColor = '#e74c3c'; // Red
+                strengthBar.style.backgroundColor = 'var(--danger)';
             } else if (strength < 70) {
-                strengthBar.style.backgroundColor = '#f39c12'; // Orange
+                strengthBar.style.backgroundColor = 'var(--warning)';
             } else {
-                strengthBar.style.backgroundColor = '#2ecc71'; // Green
+                strengthBar.style.backgroundColor = 'var(--success)';
             }
             
             strengthBar.style.width = `${strength}%`;
@@ -1358,6 +1655,8 @@ helloWorld();`,
                 navigator.clipboard.writeText(password).then(() => {
                     showNotification('Copied to clipboard!');
                 });
+            } else {
+                showNotification('No password to copy', 'error');
             }
         });
 
@@ -1398,6 +1697,7 @@ helloWorld();`,
             }
             
             output.textContent = formattedData;
+            showNotification('Data generated successfully');
         });
 
         function generateFakeData(type) {
@@ -1508,10 +1808,12 @@ helloWorld();`,
 
         document.getElementById('copyDataBtn').addEventListener('click', function() {
             const data = document.getElementById('generatedData').textContent;
-            if (data) {
+            if (data && data !== 'Generated data will appear here...') {
                 navigator.clipboard.writeText(data).then(() => {
                     showNotification('Copied to clipboard!');
                 });
+            } else {
+                showNotification('No data to copy', 'error');
             }
         });
 
@@ -1525,6 +1827,11 @@ helloWorld();`,
                 'list': 'txt'
             };
             
+            if (!data || data === 'Generated data will appear here...') {
+                showNotification('No data to download', 'error');
+                return;
+            }
+            
             const blob = new Blob([data], { type: 'text/plain' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -1534,18 +1841,8 @@ helloWorld();`,
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+            showNotification('Data downloaded successfully');
         });
-
-        // Notification function
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
-            
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
 
         // Initialize the gradient preview on page load
         document.getElementById('generateGradientBtn').click();
