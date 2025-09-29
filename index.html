@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevTools Pro - All-in-One Developer Toolkit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-bg: #f8f9fa;
+            --dark-bg: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--light-bg);
+            color: #333;
+        }
+        
+        .navbar {
+            background-color: var(--secondary-color) !important;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .nav-pills .nav-link {
+            border-radius: 30px;
+            margin: 0 5px;
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-pills .nav-link:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .nav-pills .nav-link.active {
+            background-color: var(--primary-color);
+        }
+        
+        .tool-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .tool-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .tool-header h2 {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 30px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+        }
+        
+        .output-container {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .gradient-preview {
+            height: 150px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .favicon-preview {
+            width: 64px;
+            height: 64px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+        
+        .password-strength {
+            height: 5px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .tab-content {
+            padding-top: 20px;
+        }
+        
+        .CodeMirror {
+            height: 300px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .footer {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 20px 0;
+            margin-top: 50px;
+            text-align: center;
+        }
+        
+        .copy-btn {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        
+        .copy-btn:hover {
+            background-color: #5a6268;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-tools me-2"></i>DevTools Pro</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <ul class="nav nav-pills mb-4 justify-content-center" id="toolTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="json-tab" data-bs-toggle="pill" data-bs-target="#json" type="button" role="tab">
+                    <i class="fas fa-code me-1"></i> JSON
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="markdown-tab" data-bs-toggle="pill" data-bs-target="#markdown" type="button" role="tab">
+                    <i class="fab fa-markdown me-1"></i> Markdown
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="editor-tab" data-bs-toggle="pill" data-bs-target="#editor" type="button" role="tab">
+                    <i class="fas fa-laptop-code me-1"></i> Code Editor
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="regex-tab" data-bs-toggle="pill" data-bs-target="#regex" type="button" role="tab">
+                    <i class="fas fa-search me-1"></i> Regex
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="url-tab" data-bs-toggle="pill" data-bs-target="#url" type="button" role="tab">
+                    <i class="fas fa-link me-1"></i> URL Shortener
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="gradient-tab" data-bs-toggle="pill" data-bs-target="#gradient" type="button" role="tab">
+                    <i class="fas fa-palette me-1"></i> Gradient
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="favicon-tab" data-bs-toggle="pill" data-bs-target="#favicon" type="button" role="tab">
+                    <i class="fas fa-icons me-1"></i> Favicon
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="api-tab" data-bs-toggle="pill" data-bs-target="#api" type="button" role="tab">
+                    <i class="fas fa-plug me-1"></i> API Tester
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="password-tab" data-bs-toggle="pill" data-bs-target="#password" type="button" role="tab">
+                    <i class="fas fa-key me-1"></i> Password
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="data-tab" data-bs-toggle="pill" data-bs-target="#data" type="button" role="tab">
+                    <i class="fas fa-database me-1"></i> Fake Data
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="toolTabsContent">
+            <!-- JSON Formatter & Validator -->
+            <div class="tab-pane fade show active" id="json" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-code me-2"></i>JSON Formatter & Validator</h2>
+                        <p class="text-muted">Format and validate JSON data</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="jsonInput" class="form-label">Input JSON</label>
+                                <textarea class="form-control" id="jsonInput" rows="10" placeholder="Enter your JSON data here..."></textarea>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" id="formatJsonBtn">Format & Validate</button>
+                                <button class="btn btn-outline-secondary" id="minifyJsonBtn">Minify</button>
+                                <button class="btn btn-outline-secondary" id="clearJsonBtn">Clear</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="jsonOutput" class="form-label">Output</label>
+                                <div class="output-container" id="jsonOutput">Formatted JSON will appear here...</div>
+                            </div>
+                            <button class="btn btn-outline-primary" id="copyJsonBtn">Copy to Clipboard</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Markdown to HTML Converter -->
+            <div class="tab-pane fade" id="markdown" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fab fa-markdown me-2"></i>Markdown to HTML Converter</h2>
+                        <p class="text-muted">Convert Markdown to HTML</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="markdownInput" class="form-label">Markdown Input</label>
+                                <textarea class="form-control" id="markdownInput" rows="10" placeholder="Enter your Markdown here..."></textarea>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary" id="convertMarkdownBtn">Convert to HTML</button>
+                                <button class="btn btn-outline-secondary" id="clearMarkdownBtn">Clear</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="htmlOutput" class="form-label">HTML Output</label>
+                                <div class="output-container" id="htmlOutput">HTML will appear here...</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="htmlPreview" class="form-label">Preview</label>
+                                <div class="output-container" id="htmlPreview">Preview will appear here...</div>
+                            </div>
+                            <button class="btn btn-outline-primary" id="copyHtmlBtn">Copy HTML</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Online Code Editor -->
+            <div class="tab-pane fade" id="editor" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-laptop-code me-2"></i>Online Code Editor</h2>
+                        <p class="text-muted">Write and run code in your browser</p>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label for="languageSelect" class="form-label">Language</label>
+                            <select class="form-select" id="languageSelect">
+                                <option value="javascript">JavaScript</option>
+                                <option value="html">HTML</option>
+                                <option value="css">CSS</option>
+                                <option value="python">Python</option>
+                                <option value="xml">XML</option>
+                                <option value="json">JSON</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="d-flex align-items-end h-100">
+                                <button class="btn btn-primary" id="runCodeBtn">Run Code</button>
+                                <button class="btn btn-outline-secondary ms-2" id="clearCodeBtn">Clear</button>
+                                <button class="btn btn-outline-secondary ms-2" id="downloadCodeBtn">Download</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="codeEditor" class="form-label">Code Editor</label>
+                        <div id="codeEditor"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="codeOutput" class="form-label">Output</label>
+                        <div class="output-container" id="codeOutput">Output will appear here...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regex Tester -->
+            <div class="tab-pane fade" id="regex" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-search me-2"></i>Regex Tester</h2>
+                        <p class="text-muted">Test and debug regular expressions</p>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="regexPattern" class="form-label">Regular Expression</label>
+                                <input type="text" class="form-control" id="regexPattern" placeholder="Enter regex pattern...">
+                            </div>
+                            <div class="mb-3">
+                                <label for="regexFlags" class="form-label">Flags</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="flagGlobal" value="g">
+                                    <label class="form-check-label" for="flagGlobal">Global (g)</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="flagCaseInsensitive" value="i">
+                                    <label class="form-check-label" for="flagCaseInsensitive">Case Insensitive (i)</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="flagMultiline" value="m">
+                                    <label class="form-check-label" for="flagMultiline">Multiline (m)</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="regexTestString" class="form-label">Test String</label>
+                                <textarea class="form-control" id="regexTestString" rows="3" placeholder="Enter text to test against..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" id="testRegexBtn">Test Regex</button>
+                            <button class="btn btn-outline-secondary ms-2" id="clearRegexBtn">Clear</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="regexMatches" class="form-label">Matches</label>
+                                <div class="output-container" id="regexMatches">Matches will appear here...</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="regexDetails" class="form-label">Details</label>
+                                <div class="output-container" id="regexDetails">Details will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- URL Shortener -->
+            <div class="tab-pane fade" id="url" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-link me-2"></i>URL Shortener</h2>
+                        <p class="text-muted">Create short, shareable URLs</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <label for="longUrl" class="form-label">Enter Long URL</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="longUrl" placeholder="https://example.com/very/long/url...">
+                                    <button class="btn btn-primary" id="shortenUrlBtn">Shorten URL</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="customAlias" class="form-label">Custom Alias (optional)</label>
+                                <input type="text" class="form-control" id="customAlias" placeholder="my-custom-link">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="shortUrl" class="form-label">Short URL</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="shortUrl" readonly placeholder="Short URL will appear here...">
+                                    <button class="btn btn-outline-secondary" id="copyShortUrlBtn">Copy</button>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="urlStats" class="form-label">Statistics</label>
+                                <div class="output-container" id="urlStats">URL statistics will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CSS Gradient Generator -->
+            <div class="tab-pane fade" id="gradient" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-palette me-2"></i>CSS Gradient Generator</h2>
+                        <p class="text-muted">Create beautiful CSS gradients</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="gradientType" class="form-label">Gradient Type</label>
+                                <select class="form-select" id="gradientType">
+                                    <option value="linear">Linear</option>
+                                    <option value="radial">Radial</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="gradientDirection" class="form-label">Direction</label>
+                                <select class="form-select" id="gradientDirection">
+                                    <option value="to right">Left to Right</option>
+                                    <option value="to left">Right to Left</option>
+                                    <option value="to bottom">Top to Bottom</option>
+                                    <option value="to top">Bottom to Top</option>
+                                    <option value="to bottom right">Top Left to Bottom Right</option>
+                                    <option value="to top left">Bottom Right to Top Left</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="colorStops" class="form-label">Color Stops</label>
+                                <div id="colorStopsContainer">
+                                    <div class="input-group mb-2">
+                                        <input type="color" class="form-control form-control-color color-stop" value="#3498db">
+                                        <input type="number" class="form-control color-position" value="0" min="0" max="100">
+                                        <span class="input-group-text">%</span>
+                                        <button class="btn btn-outline-danger remove-color-stop"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <input type="color" class="form-control form-control-color color-stop" value="#e74c3c">
+                                        <input type="number" class="form-control color-position" value="100" min="0" max="100">
+                                        <span class="input-group-text">%</span>
+                                        <button class="btn btn-outline-danger remove-color-stop"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </div>
+                                <button class="btn btn-sm btn-outline-secondary mt-2" id="addColorStopBtn">Add Color Stop</button>
+                            </div>
+                            <div class="mb-3">
+                                <div class="gradient-preview" id="gradientPreview"></div>
+                            </div>
+                            <button class="btn btn-primary" id="generateGradientBtn">Generate CSS</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="gradientCss" class="form-label">CSS Code</label>
+                                <textarea class="form-control" id="gradientCss" rows="10" readonly></textarea>
+                            </div>
+                            <button class="btn btn-outline-primary" id="copyGradientBtn">Copy CSS</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favicon Generator -->
+            <div class="tab-pane fade" id="favicon" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-icons me-2"></i>Favicon Generator</h2>
+                        <p class="text-muted">Create favicons from images</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="faviconUpload" class="form-label">Upload Image</label>
+                                <input type="file" class="form-control" id="faviconUpload" accept="image/*">
+                            </div>
+                            <div class="mb-3">
+                                <label for="faviconSize" class="form-label">Favicon Size</label>
+                                <select class="form-select" id="faviconSize">
+                                    <option value="16">16x16</option>
+                                    <option value="32">32x32</option>
+                                    <option value="48">48x48</option>
+                                    <option value="64">64x64</option>
+                                    <option value="128">128x128</option>
+                                    <option value="256">256x256</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="generateIco">
+                                    <label class="form-check-label" for="generateIco">
+                                        Generate .ico file (Windows)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="generatePng">
+                                    <label class="form-check-label" for="generatePng">
+                                        Generate .png file
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" id="generateFaviconBtn">Generate Favicon</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Preview</label>
+                                <div class="favicon-preview" id="faviconPreview">
+                                    <i class="fas fa-icons fa-3x text-muted"></i>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="faviconDownload" class="form-label">Download</label>
+                                <div id="faviconDownloadLinks" class="d-flex flex-column gap-2">
+                                    <!-- Download links will appear here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Online API Tester -->
+            <div class="tab-pane fade" id="api" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-plug me-2"></i>Online API Tester</h2>
+                        <p class="text-muted">Test REST APIs like Postman</p>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label for="apiMethod" class="form-label">Method</label>
+                            <select class="form-select" id="apiMethod">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                                <option value="PUT">PUT</option>
+                                <option value="DELETE">DELETE</option>
+                                <option value="PATCH">PATCH</option>
+                                <option value="HEAD">HEAD</option>
+                                <option value="OPTIONS">OPTIONS</option>
+                            </select>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="apiUrl" class="form-label">URL</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="apiUrl" placeholder="https://api.example.com/endpoint">
+                                <button class="btn btn-primary" id="sendApiBtn">Send Request</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="apiHeaders" class="form-label">Headers</label>
+                            <div id="apiHeadersContainer">
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control header-key" placeholder="Header name">
+                                    <input type="text" class="form-control header-value" placeholder="Header value">
+                                    <button class="btn btn-outline-danger remove-header"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-outline-secondary mt-2" id="addHeaderBtn">Add Header</button>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apiBody" class="form-label">Body (JSON)</label>
+                            <textarea class="form-control" id="apiBody" rows="5" placeholder='{"key": "value"}'></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="apiResponse" class="form-label">Response</label>
+                                <div class="output-container" id="apiResponse">Response will appear here...</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="apiHeadersResponse" class="form-label">Response Headers</label>
+                                <div class="output-container" id="apiHeadersResponse">Response headers will appear here...</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="apiStatus" class="form-label">Status</label>
+                                <div class="output-container" id="apiStatus">Status will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Generator -->
+            <div class="tab-pane fade" id="password" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-key me-2"></i>Password Generator</h2>
+                        <p class="text-muted">Generate strong and secure passwords</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="passwordLength" class="form-label">Password Length: <span id="passwordLengthValue">12</span></label>
+                                <input type="range" class="form-range" id="passwordLength" min="6" max="50" value="12">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Character Types</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="includeUppercase" checked>
+                                    <label class="form-check-label" for="includeUppercase">
+                                        Uppercase Letters (A-Z)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="includeLowercase" checked>
+                                    <label class="form-check-label" for="includeLowercase">
+                                        Lowercase Letters (a-z)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="includeNumbers" checked>
+                                    <label class="form-check-label" for="includeNumbers">
+                                        Numbers (0-9)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="includeSymbols" checked>
+                                    <label class="form-check-label" for="includeSymbols">
+                                        Symbols (!@#$%^&*)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="excludeSimilar" class="form-label">Exclude Similar Characters</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="excludeSimilar">
+                                    <label class="form-check-label" for="excludeSimilar">
+                                        Exclude (i, l, 1, L, o, 0, O)
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" id="generatePasswordBtn">Generate Password</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="generatedPassword" class="form-label">Generated Password</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="generatedPassword" readonly>
+                                    <button class="btn btn-outline-secondary" id="copyPasswordBtn">Copy</button>
+                                </div>
+                                <div class="password-strength" id="passwordStrength"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="passwordHistory" class="form-label">Password History</label>
+                                <div class="output-container" id="passwordHistory">Previously generated passwords will appear here...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fake Data Generator -->
+            <div class="tab-pane fade" id="data" role="tabpanel">
+                <div class="tool-container">
+                    <div class="tool-header">
+                        <h2><i class="fas fa-database me-2"></i>Fake Data Generator</h2>
+                        <p class="text-muted">Generate realistic fake data for testing</p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="dataType" class="form-label">Data Type</label>
+                                <select class="form-select" id="dataType">
+                                    <option value="name">Full Name</option>
+                                    <option value="firstName">First Name</option>
+                                    <option value="lastName">Last Name</option>
+                                    <option value="email">Email Address</option>
+                                    <option value="phone">Phone Number</option>
+                                    <option value="address">Street Address</option>
+                                    <option value="city">City</option>
+                                    <option value="state">State</option>
+                                    <option value="zip">ZIP Code</option>
+                                    <option value="country">Country</option>
+                                    <option value="company">Company Name</option>
+                                    <option value="jobTitle">Job Title</option>
+                                    <option value="username">Username</option>
+                                    <option value="password">Password</option>
+                                    <option value="creditCard">Credit Card Number</option>
+                                    <option value="lorem">Lorem Ipsum Text</option>
+                                    <option value="date">Date</option>
+                                    <option value="time">Time</option>
+                                    <option value="ipv4">IPv4 Address</option>
+                                    <option value="ipv6">IPv6 Address</option>
+                                    <option value="mac">MAC Address</option>
+                                    <option value="hexColor">Hex Color</option>
+                                    <option value="rgbColor">RGB Color</option>
+                                    <option value="url">URL</option>
+                                    <option value="uuid">UUID</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="dataQuantity" class="form-label">Quantity: <span id="dataQuantityValue">5</span></label>
+                                <input type="range" class="form-range" id="dataQuantity" min="1" max="100" value="5">
+                            </div>
+                            <div class="mb-3">
+                                <label for="dataFormat" class="form-label">Output Format</label>
+                                <select class="form-select" id="dataFormat">
+                                    <option value="json">JSON</option>
+                                    <option value="csv">CSV</option>
+                                    <option value="xml">XML</option>
+                                    <option value="list">List</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" id="generateDataBtn">Generate Data</button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="generatedData" class="form-label">Generated Data</label>
+                                <div class="output-container" id="generatedData">Generated data will appear here...</div>
+                            </div>
+                            <button class="btn btn-outline-primary" id="copyDataBtn">Copy Data</button>
+                            <button class="btn btn-outline-secondary ms-2" id="downloadDataBtn">Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">Copied to clipboard!</div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 DevTools Pro. All rights reserved.</p>
+            <p>Made with <i class="fas fa-heart text-danger"></i> for developers</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script>
+        // Initialize CodeMirror
+        const codeEditor = CodeMirror(document.getElementById('codeEditor'), {
+            value: `// Write your code here
+function helloWorld() {
+  console.log("Hello, World!");
+}
+
+helloWorld();`,
+            mode: 'javascript',
+            theme: 'monokai',
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            indentUnit: 2,
+            tabSize: 2
+        });
+
+        // Language selection for CodeMirror
+        document.getElementById('languageSelect').addEventListener('change', function() {
+            const language = this.value;
+            let mode;
+            
+            switch(language) {
+                case 'javascript':
+                    mode = 'javascript';
+                    break;
+                case 'html':
+                    mode = 'htmlmixed';
+                    break;
+                case 'css':
+                    mode = 'css';
+                    break;
+                case 'python':
+                    mode = 'python';
+                    break;
+                case 'xml':
+                    mode = 'xml';
+                    break;
+                case 'json':
+                    mode = 'javascript';
+                    break;
+                default:
+                    mode = 'javascript';
+            }
+            
+            codeEditor.setOption('mode', mode);
+        });
+
+        // JSON Formatter & Validator
+        document.getElementById('formatJsonBtn').addEventListener('click', function() {
+            const input = document.getElementById('jsonInput').value;
+            const output = document.getElementById('jsonOutput');
+            
+            try {
+                const parsed = JSON.parse(input);
+                const formatted = JSON.stringify(parsed, null, 2);
+                output.textContent = formatted;
+                output.style.color = 'green';
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+                output.style.color = 'red';
+            }
+        });
+
+        document.getElementById('minifyJsonBtn').addEventListener('click', function() {
+            const input = document.getElementById('jsonInput').value;
+            const output = document.getElementById('jsonOutput');
+            
+            try {
+                const parsed = JSON.parse(input);
+                const minified = JSON.stringify(parsed);
+                output.textContent = minified;
+                output.style.color = 'green';
+            } catch (error) {
+                output.textContent = `Error: ${error.message}`;
+                output.style.color = 'red';
+            }
+        });
+
+        document.getElementById('clearJsonBtn').addEventListener('click', function() {
+            document.getElementById('jsonInput').value = '';
+            document.getElementById('jsonOutput').textContent = 'Formatted JSON will appear here...';
+            document.getElementById('jsonOutput').style.color = '#333';
+        });
+
+        document.getElementById('copyJsonBtn').addEventListener('click', function() {
+            const output = document.getElementById('jsonOutput').textContent;
+            navigator.clipboard.writeText(output).then(() => {
+                showNotification('Copied to clipboard!');
+            });
+        });
+
+        // Markdown to HTML Converter
+        document.getElementById('convertMarkdownBtn').addEventListener('click', function() {
+            const input = document.getElementById('markdownInput').value;
+            const htmlOutput = document.getElementById('htmlOutput');
+            const htmlPreview = document.getElementById('htmlPreview');
+            
+            const html = marked.parse(input);
+            htmlOutput.textContent = html;
+            htmlPreview.innerHTML = html;
+        });
+
+        document.getElementById('clearMarkdownBtn').addEventListener('click', function() {
+            document.getElementById('markdownInput').value = '';
+            document.getElementById('htmlOutput').textContent = 'HTML will appear here...';
+            document.getElementById('htmlPreview').innerHTML = 'Preview will appear here...';
+        });
+
+        document.getElementById('copyHtmlBtn').addEventListener('click', function() {
+            const html = document.getElementById('htmlOutput').textContent;
+            navigator.clipboard.writeText(html).then(() => {
+                showNotification('Copied to clipboard!');
+            });
+        });
+
+        // Code Editor
+        document.getElementById('runCodeBtn').addEventListener('click', function() {
+            const code = codeEditor.getValue();
+            const output = document.getElementById('codeOutput');
+            const language = document.getElementById('languageSelect').value;
+            
+            // Clear previous output
+            output.textContent = '';
+            
+            if (language === 'javascript') {
+                try {
+                    // Capture console.log output
+                    const originalLog = console.log;
+                    const logs = [];
+                    console.log = function(...args) {
+                        logs.push(args.join(' '));
+                        originalLog.apply(console, args);
+                    };
+                    
+                    // Execute the code
+                    eval(code);
+                    
+                    // Restore console.log
+                    console.log = originalLog;
+                    
+                    // Display logs
+                    if (logs.length > 0) {
+                        output.textContent = logs.join('\n');
+                    } else {
+                        output.textContent = 'Code executed successfully. No output.';
+                    }
+                } catch (error) {
+                    output.textContent = `Error: ${error.message}`;
+                }
+            } else {
+                output.textContent = 'Code execution is only supported for JavaScript in this demo.';
+            }
+        });
+
+        document.getElementById('clearCodeBtn').addEventListener('click', function() {
+            codeEditor.setValue('');
+            document.getElementById('codeOutput').textContent = 'Output will appear here...';
+        });
+
+        document.getElementById('downloadCodeBtn').addEventListener('click', function() {
+            const code = codeEditor.getValue();
+            const language = document.getElementById('languageSelect').value;
+            const extension = {
+                'javascript': 'js',
+                'html': 'html',
+                'css': 'css',
+                'python': 'py',
+                'xml': 'xml',
+                'json': 'json'
+            }[language] || 'txt';
+            
+            const blob = new Blob([code], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `code.${extension}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Regex Tester
+        document.getElementById('testRegexBtn').addEventListener('click', function() {
+            const pattern = document.getElementById('regexPattern').value;
+            const testString = document.getElementById('regexTestString').value;
+            const flags = [
+                document.getElementById('flagGlobal').checked ? 'g' : '',
+                document.getElementById('flagCaseInsensitive').checked ? 'i' : '',
+                document.getElementById('flagMultiline').checked ? 'm' : ''
+            ].join('');
+            
+            const matchesOutput = document.getElementById('regexMatches');
+            const detailsOutput = document.getElementById('regexDetails');
+            
+            try {
+                const regex = new RegExp(pattern, flags);
+                const matches = testString.match(regex);
+                
+                if (matches) {
+                    matchesOutput.textContent = matches.join('\n');
+                    detailsOutput.textContent = `Found ${matches.length} match(es).`;
+                } else {
+                    matchesOutput.textContent = 'No matches found.';
+                    detailsOutput.textContent = 'Pattern not found in the test string.';
+                }
+            } catch (error) {
+                matchesOutput.textContent = '';
+                detailsOutput.textContent = `Error: ${error.message}`;
+            }
+        });
+
+        document.getElementById('clearRegexBtn').addEventListener('click', function() {
+            document.getElementById('regexPattern').value = '';
+            document.getElementById('regexTestString').value = '';
+            document.getElementById('flagGlobal').checked = false;
+            document.getElementById('flagCaseInsensitive').checked = false;
+            document.getElementById('flagMultiline').checked = false;
+            document.getElementById('regexMatches').textContent = 'Matches will appear here...';
+            document.getElementById('regexDetails').textContent = 'Details will appear here...';
+        });
+
+        // URL Shortener
+        document.getElementById('shortenUrlBtn').addEventListener('click', function() {
+            const longUrl = document.getElementById('longUrl').value;
+            const customAlias = document.getElementById('customAlias').value;
+            const shortUrlOutput = document.getElementById('shortUrl');
+            const statsOutput = document.getElementById('urlStats');
+            
+            if (!longUrl) {
+                showNotification('Please enter a URL to shorten');
+                return;
+            }
+            
+            // In a real application, this would be an API call
+            // For demo purposes, we'll generate a random short URL
+            const randomId = customAlias || Math.random().toString(36).substring(2, 8);
+            const shortUrl = `${window.location.origin}/${randomId}`;
+            
+            shortUrlOutput.value = shortUrl;
+            statsOutput.innerHTML = `
+                <p><strong>Original URL:</strong> ${longUrl}</p>
+                <p><strong>Short URL:</strong> ${shortUrl}</p>
+                <p><strong>Created:</strong> ${new Date().toLocaleString()}</p>
+                <p><strong>Clicks:</strong> 0</p>
+            `;
+        });
+
+        document.getElementById('copyShortUrlBtn').addEventListener('click', function() {
+            const shortUrl = document.getElementById('shortUrl').value;
+            if (shortUrl) {
+                navigator.clipboard.writeText(shortUrl).then(() => {
+                    showNotification('Copied to clipboard!');
+                });
+            }
+        });
+
+        // CSS Gradient Generator
+        document.getElementById('addColorStopBtn').addEventListener('click', function() {
+            const container = document.getElementById('colorStopsContainer');
+            const newStop = document.createElement('div');
+            newStop.className = 'input-group mb-2';
+            newStop.innerHTML = `
+                <input type="color" class="form-control form-control-color color-stop" value="#${Math.floor(Math.random()*16777215).toString(16)}">
+                <input type="number" class="form-control color-position" value="${Math.floor(Math.random() * 100)}" min="0" max="100">
+                <span class="input-group-text">%</span>
+                <button class="btn btn-outline-danger remove-color-stop"><i class="fas fa-trash"></i></button>
+            `;
+            container.appendChild(newStop);
+            
+            // Add event listener to remove button
+            newStop.querySelector('.remove-color-stop').addEventListener('click', function() {
+                container.removeChild(newStop);
+            });
+        });
+
+        // Add event listeners to existing remove buttons
+        document.querySelectorAll('.remove-color-stop').forEach(button => {
+            button.addEventListener('click', function() {
+                const container = document.getElementById('colorStopsContainer');
+                container.removeChild(button.parentElement);
+            });
+        });
+
+        document.getElementById('generateGradientBtn').addEventListener('click', function() {
+            const type = document.getElementById('gradientType').value;
+            const direction = document.getElementById('gradientDirection').value;
+            const colorStops = [];
+            
+            document.querySelectorAll('.color-stop').forEach((stop, index) => {
+                const color = stop.value;
+                const position = document.querySelectorAll('.color-position')[index].value;
+                colorStops.push(`${color} ${position}%`);
+            });
+            
+            const gradient = `${type}-gradient(${direction}, ${colorStops.join(', ')})`;
+            const css = `background: ${gradient};`;
+            
+            document.getElementById('gradientCss').value = css;
+            document.getElementById('gradientPreview').style.background = gradient;
+        });
+
+        document.getElementById('copyGradientBtn').addEventListener('click', function() {
+            const css = document.getElementById('gradientCss').value;
+            navigator.clipboard.writeText(css).then(() => {
+                showNotification('Copied to clipboard!');
+            });
+        });
+
+        // Favicon Generator
+        document.getElementById('generateFaviconBtn').addEventListener('click', function() {
+            const fileInput = document.getElementById('faviconUpload');
+            const size = parseInt(document.getElementById('faviconSize').value);
+            const generateIco = document.getElementById('generateIco').checked;
+            const generatePng = document.getElementById('generatePng').checked;
+            const preview = document.getElementById('faviconPreview');
+            const downloadLinks = document.getElementById('faviconDownloadLinks');
+            
+            if (!fileInput.files.length) {
+                showNotification('Please select an image');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    // Create canvas to resize image
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    canvas.width = size;
+                    canvas.height = size;
+                    
+                    // Draw image on canvas
+                    ctx.drawImage(img, 0, 0, size, size);
+                    
+                    // Update preview
+                    preview.innerHTML = '';
+                    const previewImg = document.createElement('img');
+                    previewImg.src = canvas.toDataURL('image/png');
+                    previewImg.width = size;
+                    previewImg.height = size;
+                    preview.appendChild(previewImg);
+                    
+                    // Generate download links
+                    downloadLinks.innerHTML = '';
+                    
+                    if (generatePng) {
+                        const pngLink = document.createElement('a');
+                        pngLink.href = canvas.toDataURL('image/png');
+                        pngLink.download = `favicon_${size}x${size}.png`;
+                        pngLink.className = 'btn btn-outline-primary';
+                        pngLink.textContent = `Download PNG (${size}x${size})`;
+                        downloadLinks.appendChild(pngLink);
+                    }
+                    
+                    if (generateIco) {
+                        // For demo purposes, we'll just create a PNG file named as ICO
+                        // In a real application, you would need a library to convert to ICO format
+                        const icoLink = document.createElement('a');
+                        icoLink.href = canvas.toDataURL('image/png');
+                        icoLink.download = `favicon.ico`;
+                        icoLink.className = 'btn btn-outline-primary';
+                        icoLink.textContent = `Download ICO (simulated)`;
+                        downloadLinks.appendChild(icoLink);
+                    }
+                };
+                img.src = e.target.result;
+            };
+            
+            reader.readAsDataURL(file);
+        });
+
+        // Online API Tester
+        document.getElementById('addHeaderBtn').addEventListener('click', function() {
+            const container = document.getElementById('apiHeadersContainer');
+            const newHeader = document.createElement('div');
+            newHeader.className = 'input-group mb-2';
+            newHeader.innerHTML = `
+                <input type="text" class="form-control header-key" placeholder="Header name">
+                <input type="text" class="form-control header-value" placeholder="Header value">
+                <button class="btn btn-outline-danger remove-header"><i class="fas fa-trash"></i></button>
+            `;
+            container.appendChild(newHeader);
+            
+            // Add event listener to remove button
+            newHeader.querySelector('.remove-header').addEventListener('click', function() {
+                container.removeChild(newHeader);
+            });
+        });
+
+        // Add event listeners to existing remove buttons
+        document.querySelectorAll('.remove-header').forEach(button => {
+            button.addEventListener('click', function() {
+                const container = document.getElementById('apiHeadersContainer');
+                container.removeChild(button.parentElement);
+            });
+        });
+
+        document.getElementById('sendApiBtn').addEventListener('click', async function() {
+            const method = document.getElementById('apiMethod').value;
+            const url = document.getElementById('apiUrl').value;
+            const body = document.getElementById('apiBody').value;
+            const responseOutput = document.getElementById('apiResponse');
+            const headersOutput = document.getElementById('apiHeadersResponse');
+            const statusOutput = document.getElementById('apiStatus');
+            
+            if (!url) {
+                showNotification('Please enter a URL');
+                return;
+            }
+            
+            // Collect headers
+            const headers = {};
+            document.querySelectorAll('.header-key').forEach((keyInput, index) => {
+                const key = keyInput.value;
+                const value = document.querySelectorAll('.header-value')[index].value;
+                if (key && value) {
+                    headers[key] = value;
+                }
+            });
+            
+            // Set Content-Type for JSON body
+            if (body && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+                headers['Content-Type'] = 'application/json';
+            }
+            
+            try {
+                const options = {
+                    method,
+                    headers
+                };
+                
+                if (body && (method === 'POST' || method === 'PUT' || method === 'PATCH')) {
+                    options.body = body;
+                }
+                
+                // Note: This will fail for CORS requests in a browser environment
+                // In a real application, you would need a proxy server
+                const response = await fetch(url, options);
+                
+                // Get response headers
+                const responseHeaders = {};
+                response.headers.forEach((value, name) => {
+                    responseHeaders[name] = value;
+                });
+                
+                // Get response body
+                let responseBody;
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    responseBody = await response.json();
+                } else {
+                    responseBody = await response.text();
+                }
+                
+                // Display results
+                responseOutput.textContent = typeof responseBody === 'object' ? 
+                    JSON.stringify(responseBody, null, 2) : responseBody;
+                headersOutput.textContent = JSON.stringify(responseHeaders, null, 2);
+                statusOutput.textContent = `${response.status} ${response.statusText}`;
+                
+                // Color code status
+                if (response.ok) {
+                    statusOutput.style.color = 'green';
+                } else {
+                    statusOutput.style.color = 'red';
+                }
+            } catch (error) {
+                responseOutput.textContent = `Error: ${error.message}`;
+                headersOutput.textContent = '';
+                statusOutput.textContent = 'Request failed';
+                statusOutput.style.color = 'red';
+            }
+        });
+
+        // Password Generator
+        document.getElementById('passwordLength').addEventListener('input', function() {
+            document.getElementById('passwordLengthValue').textContent = this.value;
+        });
+
+        document.getElementById('generatePasswordBtn').addEventListener('click', function() {
+            const length = parseInt(document.getElementById('passwordLength').value);
+            const includeUppercase = document.getElementById('includeUppercase').checked;
+            const includeLowercase = document.getElementById('includeLowercase').checked;
+            const includeNumbers = document.getElementById('includeNumbers').checked;
+            const includeSymbols = document.getElementById('includeSymbols').checked;
+            const excludeSimilar = document.getElementById('excludeSimilar').checked;
+            
+            let charset = '';
+            
+            if (includeUppercase) {
+                charset += excludeSimilar ? 'ABCDEFGHJKMNPQRSTUVWXYZ' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            }
+            
+            if (includeLowercase) {
+                charset += excludeSimilar ? 'abcdefghjkmnpqrstuvwxyz' : 'abcdefghijklmnopqrstuvwxyz';
+            }
+            
+            if (includeNumbers) {
+                charset += excludeSimilar ? '23456789' : '0123456789';
+            }
+            
+            if (includeSymbols) {
+                charset += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+            }
+            
+            if (!charset) {
+                showNotification('Please select at least one character type');
+                return;
+            }
+            
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+            
+            document.getElementById('generatedPassword').value = password;
+            
+            // Calculate password strength
+            calculatePasswordStrength(password);
+            
+            // Add to history
+            const history = document.getElementById('passwordHistory');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'mb-1';
+            historyItem.textContent = `${new Date().toLocaleTimeString()}: ${password}`;
+            history.prepend(historyItem);
+        });
+
+        function calculatePasswordStrength(password) {
+            const strengthBar = document.getElementById('passwordStrength');
+            let strength = 0;
+            
+            // Length contributes to strength
+            strength += Math.min(password.length * 4, 40);
+            
+            // Character variety contributes to strength
+            if (/[a-z]/.test(password)) strength += 10;
+            if (/[A-Z]/.test(password)) strength += 10;
+            if (/[0-9]/.test(password)) strength += 10;
+            if (/[^a-zA-Z0-9]/.test(password)) strength += 15;
+            
+            // Bonus for extra length
+            if (password.length > 12) strength += 15;
+            
+            // Cap at 100
+            strength = Math.min(strength, 100);
+            
+            // Set color based on strength
+            if (strength < 40) {
+                strengthBar.style.backgroundColor = '#e74c3c'; // Red
+            } else if (strength < 70) {
+                strengthBar.style.backgroundColor = '#f39c12'; // Orange
+            } else {
+                strengthBar.style.backgroundColor = '#2ecc71'; // Green
+            }
+            
+            strengthBar.style.width = `${strength}%`;
+        }
+
+        document.getElementById('copyPasswordBtn').addEventListener('click', function() {
+            const password = document.getElementById('generatedPassword').value;
+            if (password) {
+                navigator.clipboard.writeText(password).then(() => {
+                    showNotification('Copied to clipboard!');
+                });
+            }
+        });
+
+        // Fake Data Generator
+        document.getElementById('dataQuantity').addEventListener('input', function() {
+            document.getElementById('dataQuantityValue').textContent = this.value;
+        });
+
+        document.getElementById('generateDataBtn').addEventListener('click', function() {
+            const dataType = document.getElementById('dataType').value;
+            const quantity = parseInt(document.getElementById('dataQuantity').value);
+            const format = document.getElementById('dataFormat').value;
+            const output = document.getElementById('generatedData');
+            
+            let data = [];
+            
+            for (let i = 0; i < quantity; i++) {
+                data.push(generateFakeData(dataType));
+            }
+            
+            let formattedData;
+            
+            switch (format) {
+                case 'json':
+                    formattedData = JSON.stringify(data, null, 2);
+                    break;
+                case 'csv':
+                    formattedData = data.join('\n');
+                    break;
+                case 'xml':
+                    formattedData = `<data>\n${data.map(item => `  <item>${item}</item>`).join('\n')}\n</data>`;
+                    break;
+                case 'list':
+                    formattedData = data.map((item, index) => `${index + 1}. ${item}`).join('\n');
+                    break;
+                default:
+                    formattedData = data.join('\n');
+            }
+            
+            output.textContent = formattedData;
+        });
+
+        function generateFakeData(type) {
+            const firstNames = ['James', 'John', 'Robert', 'Michael', 'William', 'David', 'Richard', 'Joseph', 'Thomas', 'Charles', 'Mary', 'Patricia', 'Jennifer', 'Linda', 'Elizabeth', 'Barbara', 'Susan', 'Jessica', 'Sarah', 'Karen'];
+            const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin'];
+            const domains = ['example.com', 'test.com', 'demo.org', 'sample.net', 'fake.io'];
+            const companies = ['Acme Inc', 'Global Corp', 'Tech Solutions', 'Innovate LLC', 'Digital Dynamics', 'Future Systems', 'NextGen Tech', 'Smart Solutions', 'Cybernetics', 'Data Systems'];
+            const jobTitles = ['Software Engineer', 'Project Manager', 'Data Scientist', 'UX Designer', 'Product Manager', 'DevOps Engineer', 'Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'System Administrator'];
+            const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'];
+            const states = ['CA', 'TX', 'FL', 'NY', 'PA', 'IL', 'OH', 'GA', 'NC', 'MI'];
+            const countries = ['United States', 'Canada', 'United Kingdom', 'Germany', 'France', 'Japan', 'Australia', 'Brazil', 'India', 'China'];
+            const streets = ['Main St', 'Oak Ave', 'Park Blvd', 'Elm Dr', 'Maple Ln', 'Cedar Rd', 'Pine Way', 'First St', 'Second Ave', 'Third Blvd'];
+            const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+            
+            switch (type) {
+                case 'name':
+                    return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
+                case 'firstName':
+                    return firstNames[Math.floor(Math.random() * firstNames.length)];
+                case 'lastName':
+                    return lastNames[Math.floor(Math.random() * lastNames.length)];
+                case 'email':
+                    const firstName = firstNames[Math.floor(Math.random() * firstNames.length)].toLowerCase();
+                    const lastName = lastNames[Math.floor(Math.random() * lastNames.length)].toLowerCase();
+                    const domain = domains[Math.floor(Math.random() * domains.length)];
+                    return `${firstName}.${lastName}@${domain}`;
+                case 'phone':
+                    return `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
+                case 'address':
+                    return `${Math.floor(Math.random() * 9999) + 1} ${streets[Math.floor(Math.random() * streets.length)]}`;
+                case 'city':
+                    return cities[Math.floor(Math.random() * cities.length)];
+                case 'state':
+                    return states[Math.floor(Math.random() * states.length)];
+                case 'zip':
+                    return Math.floor(Math.random() * 90000) + 10000;
+                case 'country':
+                    return countries[Math.floor(Math.random() * countries.length)];
+                case 'company':
+                    return companies[Math.floor(Math.random() * companies.length)];
+                case 'jobTitle':
+                    return jobTitles[Math.floor(Math.random() * jobTitles.length)];
+                case 'username':
+                    const name = firstNames[Math.floor(Math.random() * firstNames.length)].toLowerCase();
+                    const number = Math.floor(Math.random() * 1000);
+                    return `${name}${number}`;
+                case 'password':
+                    let chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*';
+                    let password = '';
+                    for (let i = 0; i < 12; i++) {
+                        password += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    return password;
+                case 'creditCard':
+                    let card = '';
+                    for (let i = 0; i < 16; i++) {
+                        card += Math.floor(Math.random() * 10);
+                        if (i === 3 || i === 7 || i === 11) card += ' ';
+                    }
+                    return card;
+                case 'lorem':
+                    return lorem;
+                case 'date':
+                    const date = new Date();
+                    date.setDate(date.getDate() - Math.floor(Math.random() * 365));
+                    return date.toISOString().split('T')[0];
+                case 'time':
+                    const time = new Date();
+                    time.setHours(Math.floor(Math.random() * 24));
+                    time.setMinutes(Math.floor(Math.random() * 60));
+                    time.setSeconds(Math.floor(Math.random() * 60));
+                    return time.toTimeString().split(' ')[0];
+                case 'ipv4':
+                    return `${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+                case 'ipv6':
+                    let ipv6 = '';
+                    for (let i = 0; i < 8; i++) {
+                        ipv6 += Math.floor(Math.random() * 65536).toString(16).padStart(4, '0');
+                        if (i < 7) ipv6 += ':';
+                    }
+                    return ipv6;
+                case 'mac':
+                    let mac = '';
+                    for (let i = 0; i < 6; i++) {
+                        mac += Math.floor(Math.random() * 256).toString(16).padStart(2, '0');
+                        if (i < 5) mac += ':';
+                    }
+                    return mac;
+                case 'hexColor':
+                    return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+                case 'rgbColor':
+                    const r = Math.floor(Math.random() * 256);
+                    const g = Math.floor(Math.random() * 256);
+                    const b = Math.floor(Math.random() * 256);
+                    return `rgb(${r}, ${g}, ${b})`;
+                case 'url':
+                    return `https://www.${domains[Math.floor(Math.random() * domains.length)]}/${Math.random().toString(36).substring(2, 8)}`;
+                case 'uuid':
+                    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                        const r = Math.random() * 16 | 0;
+                        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
+                    });
+                default:
+                    return 'Unknown data type';
+            }
+        }
+
+        document.getElementById('copyDataBtn').addEventListener('click', function() {
+            const data = document.getElementById('generatedData').textContent;
+            if (data) {
+                navigator.clipboard.writeText(data).then(() => {
+                    showNotification('Copied to clipboard!');
+                });
+            }
+        });
+
+        document.getElementById('downloadDataBtn').addEventListener('click', function() {
+            const data = document.getElementById('generatedData').textContent;
+            const format = document.getElementById('dataFormat').value;
+            const extensions = {
+                'json': 'json',
+                'csv': 'csv',
+                'xml': 'xml',
+                'list': 'txt'
+            };
+            
+            const blob = new Blob([data], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fake_data.${extensions[format]}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+
+        // Notification function
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initialize the gradient preview on page load
+        document.getElementById('generateGradientBtn').click();
+    </script>
+</body>
+</html>
