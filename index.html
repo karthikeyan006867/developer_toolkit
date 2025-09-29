@@ -298,6 +298,38 @@
             margin-bottom: 1rem;
         }
         
+        /* URL Shortener Specific */
+        .url-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .url-link:hover {
+            text-decoration: underline;
+        }
+        
+        .url-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+        
+        .url-stat-item {
+            text-align: center;
+        }
+        
+        .url-stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .url-stat-label {
+            font-size: 0.875rem;
+            color: #666;
+        }
+        
         /* Footer */
         footer {
             background: var(--dark);
@@ -626,11 +658,29 @@
                                     <button class="btn btn-outline-secondary" id="copyShortUrlBtn">
                                         <i class="fas fa-copy"></i> Copy
                                     </button>
+                                    <button class="btn btn-outline-primary" id="testShortUrlBtn" style="display: none;">
+                                        <i class="fas fa-external-link-alt"></i> Test
+                                    </button>
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="urlStats" class="form-label">Statistics</label>
-                                <div class="output-container" id="urlStats">URL statistics will appear here...</div>
+                                <div class="output-container" id="urlStats">
+                                    <div class="url-stats">
+                                        <div class="url-stat-item">
+                                            <div class="url-stat-value" id="urlClicks">0</div>
+                                            <div class="url-stat-label">Clicks</div>
+                                        </div>
+                                        <div class="url-stat-item">
+                                            <div class="url-stat-value" id="urlCreated">--</div>
+                                            <div class="url-stat-label">Created</div>
+                                        </div>
+                                        <div class="url-stat-item">
+                                            <div class="url-stat-value" id="urlStatus">Active</div>
+                                            <div class="url-stat-label">Status</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1125,7 +1175,7 @@
         <i class="fas fa-check-circle"></i>
         <span id="notificationText">Copied to clipboard!</span>
     </div>
-<p>&copy; 2025 DevTools Pro. All rights reserved.</p>
+
     <!-- Footer -->
     <footer>
         <div class="container">
@@ -1444,11 +1494,14 @@ helloWorld();`,
         });
 
         // URL Shortener
+        let urlMappings = {};
+        let urlStats = {};
+
         document.getElementById('shortenUrlBtn').addEventListener('click', function() {
             const longUrl = document.getElementById('longUrl').value;
             const customAlias = document.getElementById('customAlias').value;
             const shortUrlOutput = document.getElementById('shortUrl');
-            const statsOutput = document.getElementById('urlStats');
+            const testBtn = document.getElementById('testShortUrlBtn');
             
             if (!longUrl.trim()) {
                 showNotification('Please enter a URL to shorten', 'error');
@@ -1463,17 +1516,28 @@ helloWorld();`,
                 return;
             }
             
-            // Generate short URL (simulated)
+            // Generate short URL
+            const baseUrl = window.location.origin + window.location.pathname;
             const randomId = customAlias || Math.random().toString(36).substring(2, 8);
-            const shortUrl = `${window.location.origin}/${randomId}`;
+            const shortUrl = `${baseUrl}#${randomId}`;
             
+            // Store mapping
+            urlMappings[randomId] = longUrl;
+            
+            // Initialize stats
+            if (!urlStats[randomId]) {
+                urlStats[randomId] = {
+                    clicks: 0,
+                    created: new Date().toLocaleString()
+                };
+            }
+            
+            // Update UI
             shortUrlOutput.value = shortUrl;
-            statsOutput.innerHTML = `
-                <p><strong>Original URL:</strong> ${longUrl}</p>
-                <p><strong>Short URL:</strong> ${shortUrl}</p>
-                <p><strong>Created:</strong> ${new Date().toLocaleString()}</p>
-                <p><strong>Clicks:</strong> 0</p>
-            `;
+            testBtn.style.display = 'block';
+            
+            // Update stats display
+            updateUrlStats(randomId);
             
             showNotification('URL shortened successfully');
         });
@@ -1486,6 +1550,46 @@ helloWorld();`,
                 });
             } else {
                 showNotification('No URL to copy', 'error');
+            }
+        });
+
+        document.getElementById('testShortUrlBtn').addEventListener('click', function() {
+            const shortUrl = document.getElementById('shortUrl').value;
+            if (shortUrl) {
+                // Extract the hash part
+                const hash = shortUrl.split('#')[1];
+                if (hash && urlMappings[hash]) {
+                    // Increment click count
+                    urlStats[hash].clicks++;
+                    updateUrlStats(hash);
+                    
+                    // Open the long URL in a new tab
+                    window.open(urlMappings[hash], '_blank');
+                    showNotification('Opening URL in new tab');
+                }
+            } else {
+                showNotification('No URL to test', 'error');
+            }
+        });
+
+        function updateUrlStats(hash) {
+            const stats = urlStats[hash];
+            if (stats) {
+                document.getElementById('urlClicks').textContent = stats.clicks;
+                document.getElementById('urlCreated').textContent = stats.created;
+                document.getElementById('urlStatus').textContent = 'Active';
+            }
+        }
+
+        // Check for URL hash on page load
+        window.addEventListener('load', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash && urlMappings[hash]) {
+                // Increment click count
+                urlStats[hash].clicks++;
+                
+                // Redirect to long URL
+                window.location.href = urlMappings[hash];
             }
         });
 
