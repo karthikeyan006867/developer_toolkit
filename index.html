@@ -262,6 +262,42 @@
             margin-right: 0.5rem;
         }
         
+        /* About and Contact Sections */
+        .about-section, .contact-section {
+            padding: 2rem 0;
+        }
+        
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        .contact-form .form-control {
+            margin-bottom: 1rem;
+        }
+        
         /* Footer */
         footer {
             background: var(--dark);
@@ -303,10 +339,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#aboutModal">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a>
+                        <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#contactModal">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -949,17 +985,153 @@
         </div>
     </div>
 
+    <!-- About Modal -->
+    <div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="aboutModalLabel">About Karthikeyan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4 text-center">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Karthikeyan" class="profile-img mb-3">
+                                <h4>Karthikeyan</h4>
+                                <p class="text-muted">Full Stack Developer</p>
+                                <div class="social-links mb-4">
+                                    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h5>About Me</h5>
+                                <p>Hello! I'm Karthikeyan, a passionate full-stack developer with expertise in creating web applications and tools that make developers' lives easier. With over 5 years of experience in the industry, I've worked on a wide range of projects from small business websites to large-scale enterprise applications.</p>
+                                
+                                <h5 class="mt-4">Skills & Expertise</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li>Frontend: HTML, CSS, JavaScript, React</li>
+                                            <li>Backend: Node.js, Python, PHP</li>
+                                            <li>Databases: MySQL, MongoDB, PostgreSQL</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul>
+                                            <li>DevOps: Docker, AWS, CI/CD</li>
+                                            <li>Tools: Git, VS Code, Figma</li>
+                                            <li>Methodologies: Agile, Scrum</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="mt-4">Experience</h5>
+                                <div class="timeline">
+                                    <div class="mb-3">
+                                        <h6>Senior Full Stack Developer <span class="text-muted">(2020 - Present)</span></h6>
+                                        <p>Tech Solutions Inc.</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Web Developer <span class="text-muted">(2018 - 2020)</span></h6>
+                                        <p>Digital Dynamics Ltd.</p>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h6>Junior Developer <span class="text-muted">(2016 - 2018)</span></h6>
+                                        <p>Web Innovations</p>
+                                    </div>
+                                </div>
+                                
+                                <h5 class="mt-4">Education</h5>
+                                <p><strong>Bachelor of Technology in Computer Science</strong><br>
+                                University of Technology (2012 - 2016)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contactModalLabel">Contact Me</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5>Get in Touch</h5>
+                                <p>Have a question or want to work together? Feel free to reach out!</p>
+                                
+                                <div class="contact-info mb-4">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-envelope me-3 text-primary"></i>
+                                        <span>admin@karthikeyang.tech</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-phone me-3 text-primary"></i>
+                                        <span>+1 (555) 123-4567</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <i class="fas fa-map-marker-alt me-3 text-primary"></i>
+                                        <span>San Francisco, CA</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="social-links">
+                                    <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+                                    <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Send a Message</h5>
+                                <form id="contactForm">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" id="contactName" placeholder="Your Name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="email" class="form-control" id="contactEmail" placeholder="Your Email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" id="contactSubject" placeholder="Subject" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea class="form-control" id="contactMessage" rows="4" placeholder="Your Message" required></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Notification -->
     <div class="notification" id="notification">
         <i class="fas fa-check-circle"></i>
         <span id="notificationText">Copied to clipboard!</span>
     </div>
-
+<p>&copy; 2025 DevTools Pro. All rights reserved.</p>
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2023 DevTools Pro. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart text-danger"></i> for developers</p>
+            <p>&copy; 2025 DevTools Pro. All rights reserved.</p>
+            <p>Made with <i class="fas fa-heart text-danger"></i> by Karthikeyan</p>
+            <p>Contact: admin@karthikeyang.tech</p>
         </div>
     </footer>
 
@@ -1842,6 +2014,30 @@ helloWorld();`,
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             showNotification('Data downloaded successfully');
+        });
+
+        // Contact Form
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            // In a real application, you would send this data to a server
+            // For demo purposes, we'll just show a success message
+            
+            showNotification('Message sent successfully!');
+            
+            // Reset form
+            this.reset();
+            
+            // Close modal after a delay
+            setTimeout(() => {
+                const contactModal = bootstrap.Modal.getInstance(document.getElementById('contactModal'));
+                contactModal.hide();
+            }, 2000);
         });
 
         // Initialize the gradient preview on page load
