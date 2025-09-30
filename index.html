@@ -31,6 +31,7 @@
             background-color: var(--light);
             color: #333;
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
         /* Header Styles */
@@ -38,6 +39,7 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             padding: 1rem 0;
+            animation: slideDown 0.5s ease-out;
         }
         
         .navbar-brand {
@@ -46,11 +48,17 @@
             color: white !important;
             display: flex;
             align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .navbar-brand:hover {
+            transform: scale(1.05);
         }
         
         .navbar-brand i {
             margin-right: 0.5rem;
             font-size: 1.8rem;
+            animation: spin 2s linear infinite;
         }
         
         /* Navigation Tabs */
@@ -62,6 +70,7 @@
             margin-bottom: 2rem;
             overflow-x: auto;
             flex-wrap: nowrap;
+            animation: fadeInUp 0.7s ease-out;
         }
         
         .nav-pills .nav-link {
@@ -72,17 +81,36 @@
             padding: 0.75rem 1rem;
             white-space: nowrap;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-pills .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-pills .nav-link:hover::before {
+            left: 100%;
         }
         
         .nav-pills .nav-link:hover {
             background-color: rgba(67, 97, 238, 0.1);
             color: var(--primary);
+            transform: translateY(-2px);
         }
         
         .nav-pills .nav-link.active {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             box-shadow: 0 2px 8px rgba(67, 97, 238, 0.3);
+            animation: pulse 2s infinite;
         }
         
         /* Tool Container */
@@ -92,11 +120,20 @@
             box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             padding: 2rem;
             margin-bottom: 2rem;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.5s ease-out;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .tool-container.show {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .tool-container:hover {
-            transform: translateY(-2px);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
         
         .tool-header {
@@ -110,16 +147,19 @@
             font-weight: 600;
             display: flex;
             align-items: center;
+            animation: slideInLeft 0.5s ease-out;
         }
         
         .tool-header h2 i {
             margin-right: 0.75rem;
             color: var(--primary);
+            animation: bounce 2s infinite;
         }
         
         .tool-header p {
             color: #666;
             margin-top: 0.25rem;
+            animation: slideInRight 0.5s ease-out;
         }
         
         /* Form Controls */
@@ -134,6 +174,7 @@
         .form-control:focus, .form-select:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+            transform: translateY(-2px);
         }
         
         /* Buttons */
@@ -147,10 +188,35 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:active::before {
+            width: 300px;
+            height: 300px;
         }
         
         .btn i {
             margin-right: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(3px);
         }
         
         .btn-primary {
@@ -159,8 +225,8 @@
         }
         
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
         }
         
         .btn-outline-primary {
@@ -172,6 +238,7 @@
         .btn-outline-primary:hover {
             background: var(--primary);
             color: white;
+            transform: translateY(-2px);
         }
         
         .btn-outline-secondary {
@@ -183,6 +250,7 @@
         .btn-outline-secondary:hover {
             background: #6c757d;
             color: white;
+            transform: translateY(-2px);
         }
         
         /* Output Container */
@@ -197,6 +265,12 @@
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 0.9rem;
             line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        
+        .output-container:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
         }
         
         /* Code Editor */
@@ -205,6 +279,12 @@
             border: 1px solid #ddd;
             font-size: 0.9rem;
             height: 300px;
+            transition: all 0.3s ease;
+        }
+        
+        .CodeMirror:hover {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
         }
         
         /* Gradient Preview */
@@ -213,6 +293,9 @@
             border-radius: 8px;
             margin: 1rem 0;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            animation: gradientShift 5s ease infinite;
+            background-size: 200% 200%;
         }
         
         /* Favicon Preview */
@@ -227,11 +310,23 @@
             justify-content: center;
             background-color: #f8f9fa;
             overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .favicon-preview:hover {
+            transform: scale(1.1);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .favicon-preview img {
             max-width: 100%;
             max-height: 100%;
+            transition: transform 0.3s ease;
+        }
+        
+        .favicon-preview:hover img {
+            transform: scale(1.2);
         }
         
         .favicon-sizes {
@@ -247,6 +342,13 @@
             padding: 5px 10px;
             background-color: #f1f1f1;
             border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .favicon-size-item:hover {
+            background-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
         }
         
         /* Password Strength */
@@ -261,7 +363,7 @@
         .password-strength-bar {
             height: 100%;
             width: 0;
-            transition: all 0.3s ease;
+            transition: all 0.5s ease;
         }
         
         /* Notification */
@@ -277,10 +379,12 @@
             z-index: 1000;
             display: none;
             align-items: center;
+            animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
         }
         
         .notification i {
             margin-right: 0.5rem;
+            animation: pulse 2s infinite;
         }
         
         /* About and Contact Sections */
@@ -295,6 +399,12 @@
             object-fit: cover;
             border: 4px solid var(--primary);
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
         }
         
         .social-links a {
@@ -311,12 +421,17 @@
         }
         
         .social-links a:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-5px) rotate(360deg);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
         .contact-form .form-control {
             margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-form .form-control:focus {
+            transform: translateY(-2px);
         }
         
         /* Footer */
@@ -326,6 +441,33 @@
             padding: 2rem 0;
             margin-top: 3rem;
             text-align: center;
+            animation: fadeInUp 0.7s ease-out;
+        }
+        
+        footer p {
+            margin: 0;
+            transition: all 0.3s ease;
+        }
+        
+        footer p:hover {
+            transform: scale(1.05);
+        }
+        
+        footer i {
+            color: #e74c3c;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        /* Loading Spinner */
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid white;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-left: 10px;
         }
         
         /* Responsive */
@@ -343,6 +485,103 @@
                 font-size: 0.85rem;
                 padding: 0.5rem 0.75rem;
             }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
     </style>
 </head>
@@ -505,7 +744,7 @@
                 <div class="tool-container">
                     <div class="tool-header">
                         <h2><i class="fas fa-laptop-code"></i> Online Code Editor</h2>
-                        <p class="text-muted">Write and run code in your browser (JavaScript execution supported)</p>
+                        <p class="text-muted">Write and run code in your browser (JavaScript execution supported natively, other languages use simulation)</p>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
@@ -1138,7 +1377,7 @@
     <footer>
         <div class="container">
             <p>&copy; 2025 DevTools Pro. All rights reserved.</p>
-            <p>Made with <i class="fas fa-heart text-danger"></i> by Karthikeyan</p>
+            <p>Made with <i class="fas fa-heart"></i> by Karthikeyan</p>
             <p>Contact: admin@karthikeyang.tech</p>
         </div>
     </footer>
@@ -1274,6 +1513,46 @@ helloWorld();`,
             }, 3000);
         }
 
+        // Animate tool containers when they become visible
+        function animateToolContainers() {
+            const toolContainers = document.querySelectorAll('.tool-container');
+            
+            toolContainers.forEach(container => {
+                // Check if the container is visible
+                const rect = container.getBoundingClientRect();
+                const isVisible = (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+                
+                if (isVisible) {
+                    container.classList.add('show');
+                }
+            });
+        }
+
+        // Initial animation check
+        window.addEventListener('load', animateToolContainers);
+        window.addEventListener('scroll', animateToolContainers);
+
+        // Tab change animation
+        document.querySelectorAll('[data-bs-toggle="pill"]').forEach(tab => {
+            tab.addEventListener('shown.bs.tab', function() {
+                const targetId = this.getAttribute('data-bs-target');
+                const targetPane = document.querySelector(targetId);
+                const toolContainer = targetPane.querySelector('.tool-container');
+                
+                if (toolContainer) {
+                    toolContainer.classList.remove('show');
+                    setTimeout(() => {
+                        toolContainer.classList.add('show');
+                    }, 10);
+                }
+            });
+        });
+
         // JSON Formatter & Validator
         document.getElementById('formatJsonBtn').addEventListener('click', function() {
             const input = document.getElementById('jsonInput').value;
@@ -1387,7 +1666,7 @@ helloWorld();`,
                 return;
             }
             
-            output.textContent = '';
+            output.textContent = 'Running code...';
             
             if (language === 'javascript') {
                 try {
@@ -1417,9 +1696,127 @@ helloWorld();`,
                     output.textContent = `Error: ${error.message}`;
                     showNotification('Error executing code', 'error');
                 }
+            } else if (language === 'html') {
+                try {
+                    // Create a new iframe to render HTML
+                    const iframe = document.createElement('iframe');
+                    iframe.style.width = '100%';
+                    iframe.style.height = '200px';
+                    iframe.style.border = '1px solid #ddd';
+                    iframe.style.borderRadius = '8px';
+                    
+                    // Clear previous output
+                    output.innerHTML = '';
+                    output.appendChild(iframe);
+                    
+                    // Write HTML to iframe
+                    iframe.contentDocument.open();
+                    iframe.contentDocument.write(code);
+                    iframe.contentDocument.close();
+                    
+                    showNotification('HTML rendered successfully');
+                } catch (error) {
+                    output.textContent = `Error: ${error.message}`;
+                    showNotification('Error rendering HTML', 'error');
+                }
+            } else if (language === 'css') {
+                try {
+                    // Create a new div to apply CSS
+                    const testDiv = document.createElement('div');
+                    testDiv.innerHTML = '<div style="padding: 20px; border: 1px solid #ddd; border-radius: 8px;">CSS Preview</div>';
+                    
+                    // Clear previous output
+                    output.innerHTML = '';
+                    output.appendChild(testDiv);
+                    
+                    // Create style element
+                    const style = document.createElement('style');
+                    style.textContent = code;
+                    testDiv.appendChild(style);
+                    
+                    showNotification('CSS applied successfully');
+                } catch (error) {
+                    output.textContent = `Error: ${error.message}`;
+                    showNotification('Error applying CSS', 'error');
+                }
+            } else if (language === 'python') {
+                try {
+                    // Simulate Python execution
+                    output.textContent = 'Python simulation:\n\n';
+                    
+                    // Simple Python-like interpreter for basic operations
+                    const lines = code.split('\n');
+                    for (const line of lines) {
+                        if (line.trim().startsWith('print(') && line.trim().endsWith(')')) {
+                            // Extract content between print()
+                            const content = line.trim().substring(6, line.trim().length - 1);
+                            // Remove quotes
+                            let result = content.replace(/^["']|["']$/g, '');
+                            // Simple variable substitution (simulation)
+                            if (result.includes('${') && result.includes('}')) {
+                                result = result.replace(/\${([^}]+)}/g, 'variable_value');
+                            }
+                            output.textContent += result + '\n';
+                        } else if (line.includes('=') && !line.trim().startsWith('#')) {
+                            // Variable assignment simulation
+                            output.textContent += `// Variable assigned: ${line.trim()}\n`;
+                        } else if (line.trim().startsWith('#')) {
+                            // Comment
+                            output.textContent += `// Comment: ${line.trim().substring(1)}\n`;
+                        } else if (line.trim() !== '') {
+                            // Other code
+                            output.textContent += `// Executing: ${line.trim()}\n`;
+                        }
+                    }
+                    
+                    output.textContent += '\n// Python simulation completed';
+                    showNotification('Python code simulated successfully');
+                } catch (error) {
+                    output.textContent = `Error: ${error.message}`;
+                    showNotification('Error simulating Python code', 'error');
+                }
             } else {
-                output.textContent = 'Code execution is only supported for JavaScript in this demo.';
-                showNotification('Only JavaScript execution is supported', 'error');
+                // For other languages, provide a simulation
+                try {
+                    output.textContent = `${language.charAt(0).toUpperCase() + language.slice(1)} simulation:\n\n`;
+                    
+                    // Simple code simulation
+                    const lines = code.split('\n');
+                    for (const line of lines) {
+                        if (line.trim() === '') continue;
+                        
+                        // Detect print/output statements
+                        if (line.includes('print') || line.includes('console.log') || line.includes('System.out.println') || line.includes('printf')) {
+                            output.textContent += `Output: Simulated output for ${line.trim()}\n`;
+                        } 
+                        // Detect variable assignments
+                        else if (line.includes('=') && !line.trim().startsWith('//') && !line.trim().startsWith('#') && !line.trim().startsWith('/*')) {
+                            output.textContent += `Variable assigned: ${line.trim()}\n`;
+                        }
+                        // Detect function definitions
+                        else if (line.includes('function') || line.includes('def ') || line.includes('void ') || line.includes('public ') || line.includes('private ')) {
+                            output.textContent += `Function defined: ${line.trim()}\n`;
+                        }
+                        // Detect loops
+                        else if (line.includes('for ') || line.includes('while ')) {
+                            output.textContent += `Loop started: ${line.trim()}\n`;
+                        }
+                        // Detect comments
+                        else if (line.trim().startsWith('//') || line.trim().startsWith('#') || line.trim().startsWith('/*')) {
+                            output.textContent += `Comment: ${line.trim()}\n`;
+                        }
+                        // Other code
+                        else {
+                            output.textContent += `Executing: ${line.trim()}\n`;
+                        }
+                    }
+                    
+                    output.textContent += `\n// ${language.charAt(0).toUpperCase() + language.slice(1)} simulation completed`;
+                    showNotification(`${language.charAt(0).toUpperCase() + language.slice(1)} code simulated successfully`);
+                } catch (error) {
+                    output.textContent = `Error: ${error.message}`;
+                    showNotification(`Error simulating ${language} code`, 'error');
+                }
             }
         });
 
@@ -2132,6 +2529,13 @@ helloWorld();`,
         // Initialize the gradient preview on page load
         document.addEventListener('DOMContentLoaded', function() {
             updateGradient();
+            
+            // Show all tool containers with animation
+            setTimeout(() => {
+                document.querySelectorAll('.tool-container').forEach(container => {
+                    container.classList.add('show');
+                });
+            }, 100);
         });
     </script>
 </body>
