@@ -204,6 +204,7 @@
             border-radius: 8px;
             border: 1px solid #ddd;
             font-size: 0.9rem;
+            height: 300px;
         }
         
         /* Gradient Preview */
@@ -226,6 +227,26 @@
             justify-content: center;
             background-color: #f8f9fa;
             overflow: hidden;
+        }
+        
+        .favicon-preview img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .favicon-sizes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .favicon-size-item {
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
         }
         
         /* Password Strength */
@@ -296,38 +317,6 @@
         
         .contact-form .form-control {
             margin-bottom: 1rem;
-        }
-        
-        /* URL Shortener Specific */
-        .url-link {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 500;
-        }
-        
-        .url-link:hover {
-            text-decoration: underline;
-        }
-        
-        .url-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-        }
-        
-        .url-stat-item {
-            text-align: center;
-        }
-        
-        .url-stat-value {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        .url-stat-label {
-            font-size: 0.875rem;
-            color: #666;
         }
         
         /* Footer */
@@ -403,11 +392,6 @@
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="regex-tab" data-bs-toggle="pill" data-bs-target="#regex" type="button" role="tab">
                     <i class="fas fa-search"></i> Regex
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="url-tab" data-bs-toggle="pill" data-bs-target="#url" type="button" role="tab">
-                    <i class="fas fa-link"></i> URL Shortener
                 </button>
             </li>
             <li class="nav-item" role="presentation">
@@ -521,7 +505,7 @@
                 <div class="tool-container">
                     <div class="tool-header">
                         <h2><i class="fas fa-laptop-code"></i> Online Code Editor</h2>
-                        <p class="text-muted">Write and run code in your browser</p>
+                        <p class="text-muted">Write and run code in your browser (JavaScript execution supported)</p>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-4">
@@ -531,6 +515,22 @@
                                 <option value="html">HTML</option>
                                 <option value="css">CSS</option>
                                 <option value="python">Python</option>
+                                <option value="java">Java</option>
+                                <option value="c">C</option>
+                                <option value="cpp">C++</option>
+                                <option value="csharp">C#</option>
+                                <option value="php">PHP</option>
+                                <option value="ruby">Ruby</option>
+                                <option value="go">Go</option>
+                                <option value="rust">Rust</option>
+                                <option value="swift">Swift</option>
+                                <option value="kotlin">Kotlin</option>
+                                <option value="typescript">TypeScript</option>
+                                <option value="sql">SQL</option>
+                                <option value="bash">Bash</option>
+                                <option value="perl">Perl</option>
+                                <option value="r">R</option>
+                                <option value="lua">Lua</option>
                                 <option value="xml">XML</option>
                                 <option value="json">JSON</option>
                             </select>
@@ -623,70 +623,6 @@
                 </div>
             </div>
 
-            <!-- URL Shortener -->
-            <div class="tab-pane fade" id="url" role="tabpanel">
-                <div class="tool-container">
-                    <div class="tool-header">
-                        <h2><i class="fas fa-link"></i> URL Shortener</h2>
-                        <p class="text-muted">Create short, shareable URLs</p>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="mb-3">
-                                <label for="longUrl" class="form-label">Enter Long URL</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="longUrl" placeholder="https://example.com/very/long/url...">
-                                    <button class="btn btn-primary" id="shortenUrlBtn">
-                                        <i class="fas fa-compress"></i> Shorten URL
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="mb-3">
-                                <label for="customAlias" class="form-label">Custom Alias (optional)</label>
-                                <input type="text" class="form-control" id="customAlias" placeholder="my-custom-link">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <div class="mb-3">
-                                <label for="shortUrl" class="form-label">Short URL</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="shortUrl" readonly placeholder="Short URL will appear here...">
-                                    <button class="btn btn-outline-secondary" id="copyShortUrlBtn">
-                                        <i class="fas fa-copy"></i> Copy
-                                    </button>
-                                    <button class="btn btn-outline-primary" id="testShortUrlBtn" style="display: none;">
-                                        <i class="fas fa-external-link-alt"></i> Test
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="urlStats" class="form-label">Statistics</label>
-                                <div class="output-container" id="urlStats">
-                                    <div class="url-stats">
-                                        <div class="url-stat-item">
-                                            <div class="url-stat-value" id="urlClicks">0</div>
-                                            <div class="url-stat-label">Clicks</div>
-                                        </div>
-                                        <div class="url-stat-item">
-                                            <div class="url-stat-value" id="urlCreated">--</div>
-                                            <div class="url-stat-label">Created</div>
-                                        </div>
-                                        <div class="url-stat-item">
-                                            <div class="url-stat-value" id="urlStatus">Active</div>
-                                            <div class="url-stat-label">Status</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- CSS Gradient Generator -->
             <div class="tab-pane fade" id="gradient" role="tabpanel">
                 <div class="tool-container">
@@ -772,21 +708,43 @@
                                 <input type="file" class="form-control" id="faviconUpload" accept="image/*">
                             </div>
                             <div class="mb-3">
-                                <label for="faviconSize" class="form-label">Favicon Size</label>
-                                <select class="form-select" id="faviconSize">
-                                    <option value="16">16x16</option>
-                                    <option value="32">32x32</option>
-                                    <option value="48">48x48</option>
-                                    <option value="64">64x64</option>
-                                    <option value="128">128x128</option>
-                                    <option value="256">256x256</option>
-                                </select>
+                                <label class="form-label">Favicon Sizes</label>
+                                <div class="form-check">
+                                    <input class="form-check-input favicon-size" type="checkbox" value="16" checked>
+                                    <label class="form-check-label" for="faviconSize16">16x16</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input favicon-size" type="checkbox" value="32" checked>
+                                    <label class="form-check-label" for="faviconSize32">32x32</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input favicon-size" type="checkbox" value="48" checked>
+                                    <label class="form-check-label" for="faviconSize48">48x48</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input favicon-size" type="checkbox" value="64">
+                                    <label class="form-check-label" for="faviconSize64">64x64</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input favicon-size" type="checkbox" value="128">
+                                    <label class="form-check-label" for="faviconSize128">128x128</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input favicon-size" type="checkbox" value="256">
+                                    <label class="form-check-label" for="faviconSize256">256x256</label>
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="generateIco" checked>
+                                    <label class="form-check-label" for="generateIco">
+                                        Generate .ico file
+                                    </label>
+                                </div>
+                                <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="generatePng" checked>
                                     <label class="form-check-label" for="generatePng">
-                                        Generate .png file
+                                        Generate .png files
                                     </label>
                                 </div>
                             </div>
@@ -1193,6 +1151,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/css/css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/htmlmixed/htmlmixed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/php/php.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/ruby/ruby.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/go/go.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/rust/rust.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/swift/swift.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/sql/sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/shell/shell.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/perl/perl.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/r/r.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/lua/lua.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
     <script>
         // Initialize CodeMirror
@@ -1230,11 +1201,57 @@ helloWorld();`,
                 case 'python':
                     mode = 'python';
                     break;
+                case 'java':
+                case 'csharp':
+                    mode = 'text/x-java';
+                    break;
+                case 'c':
+                    mode = 'text/x-csrc';
+                    break;
+                case 'cpp':
+                    mode = 'text/x-c++src';
+                    break;
+                case 'php':
+                    mode = 'php';
+                    break;
+                case 'ruby':
+                    mode = 'ruby';
+                    break;
+                case 'go':
+                    mode = 'go';
+                    break;
+                case 'rust':
+                    mode = 'rust';
+                    break;
+                case 'swift':
+                    mode = 'swift';
+                    break;
+                case 'kotlin':
+                    mode = 'text/x-kotlin';
+                    break;
+                case 'typescript':
+                    mode = 'application/typescript';
+                    break;
+                case 'sql':
+                    mode = 'sql';
+                    break;
+                case 'bash':
+                    mode = 'shell';
+                    break;
+                case 'perl':
+                    mode = 'perl';
+                    break;
+                case 'r':
+                    mode = 'r';
+                    break;
+                case 'lua':
+                    mode = 'lua';
+                    break;
                 case 'xml':
                     mode = 'xml';
                     break;
                 case 'json':
-                    mode = 'javascript';
+                    mode = 'application/json';
                     break;
                 default:
                     mode = 'javascript';
@@ -1419,6 +1436,22 @@ helloWorld();`,
                 'html': 'html',
                 'css': 'css',
                 'python': 'py',
+                'java': 'java',
+                'c': 'c',
+                'cpp': 'cpp',
+                'csharp': 'cs',
+                'php': 'php',
+                'ruby': 'rb',
+                'go': 'go',
+                'rust': 'rs',
+                'swift': 'swift',
+                'kotlin': 'kt',
+                'typescript': 'ts',
+                'sql': 'sql',
+                'bash': 'sh',
+                'perl': 'pl',
+                'r': 'r',
+                'lua': 'lua',
                 'xml': 'xml',
                 'json': 'json'
             }[language] || 'txt';
@@ -1493,106 +1526,6 @@ helloWorld();`,
             document.getElementById('regexDetails').textContent = 'Details will appear here...';
         });
 
-        // URL Shortener
-        let urlMappings = {};
-        let urlStats = {};
-
-        document.getElementById('shortenUrlBtn').addEventListener('click', function() {
-            const longUrl = document.getElementById('longUrl').value;
-            const customAlias = document.getElementById('customAlias').value;
-            const shortUrlOutput = document.getElementById('shortUrl');
-            const testBtn = document.getElementById('testShortUrlBtn');
-            
-            if (!longUrl.trim()) {
-                showNotification('Please enter a URL to shorten', 'error');
-                return;
-            }
-            
-            // Simple URL validation
-            try {
-                new URL(longUrl);
-            } catch {
-                showNotification('Please enter a valid URL', 'error');
-                return;
-            }
-            
-            // Generate short URL
-            const baseUrl = window.location.origin + window.location.pathname;
-            const randomId = customAlias || Math.random().toString(36).substring(2, 8);
-            const shortUrl = `${baseUrl}#${randomId}`;
-            
-            // Store mapping
-            urlMappings[randomId] = longUrl;
-            
-            // Initialize stats
-            if (!urlStats[randomId]) {
-                urlStats[randomId] = {
-                    clicks: 0,
-                    created: new Date().toLocaleString()
-                };
-            }
-            
-            // Update UI
-            shortUrlOutput.value = shortUrl;
-            testBtn.style.display = 'block';
-            
-            // Update stats display
-            updateUrlStats(randomId);
-            
-            showNotification('URL shortened successfully');
-        });
-
-        document.getElementById('copyShortUrlBtn').addEventListener('click', function() {
-            const shortUrl = document.getElementById('shortUrl').value;
-            if (shortUrl) {
-                navigator.clipboard.writeText(shortUrl).then(() => {
-                    showNotification('Copied to clipboard!');
-                });
-            } else {
-                showNotification('No URL to copy', 'error');
-            }
-        });
-
-        document.getElementById('testShortUrlBtn').addEventListener('click', function() {
-            const shortUrl = document.getElementById('shortUrl').value;
-            if (shortUrl) {
-                // Extract the hash part
-                const hash = shortUrl.split('#')[1];
-                if (hash && urlMappings[hash]) {
-                    // Increment click count
-                    urlStats[hash].clicks++;
-                    updateUrlStats(hash);
-                    
-                    // Open the long URL in a new tab
-                    window.open(urlMappings[hash], '_blank');
-                    showNotification('Opening URL in new tab');
-                }
-            } else {
-                showNotification('No URL to test', 'error');
-            }
-        });
-
-        function updateUrlStats(hash) {
-            const stats = urlStats[hash];
-            if (stats) {
-                document.getElementById('urlClicks').textContent = stats.clicks;
-                document.getElementById('urlCreated').textContent = stats.created;
-                document.getElementById('urlStatus').textContent = 'Active';
-            }
-        }
-
-        // Check for URL hash on page load
-        window.addEventListener('load', function() {
-            const hash = window.location.hash.substring(1);
-            if (hash && urlMappings[hash]) {
-                // Increment click count
-                urlStats[hash].clicks++;
-                
-                // Redirect to long URL
-                window.location.href = urlMappings[hash];
-            }
-        });
-
         // CSS Gradient Generator
         document.getElementById('addColorStopBtn').addEventListener('click', function() {
             const container = document.getElementById('colorStopsContainer');
@@ -1611,7 +1544,12 @@ helloWorld();`,
             // Add event listener to remove button
             newStop.querySelector('.remove-color-stop').addEventListener('click', function() {
                 container.removeChild(newStop);
+                updateGradient();
             });
+            
+            // Add event listener to color and position inputs
+            newStop.querySelector('.color-stop').addEventListener('input', updateGradient);
+            newStop.querySelector('.color-position').addEventListener('input', updateGradient);
         });
 
         // Add event listeners to existing remove buttons
@@ -1620,13 +1558,23 @@ helloWorld();`,
                 const container = document.getElementById('colorStopsContainer');
                 if (container.children.length > 2) {
                     container.removeChild(button.parentElement);
+                    updateGradient();
                 } else {
                     showNotification('At least two color stops are required', 'error');
                 }
             });
         });
 
-        document.getElementById('generateGradientBtn').addEventListener('click', function() {
+        // Add event listeners to existing color and position inputs
+        document.querySelectorAll('.color-stop, .color-position').forEach(input => {
+            input.addEventListener('input', updateGradient);
+        });
+
+        // Add event listeners to gradient type and direction
+        document.getElementById('gradientType').addEventListener('change', updateGradient);
+        document.getElementById('gradientDirection').addEventListener('change', updateGradient);
+
+        function updateGradient() {
             const type = document.getElementById('gradientType').value;
             const direction = document.getElementById('gradientDirection').value;
             const colorStops = [];
@@ -1642,6 +1590,10 @@ helloWorld();`,
             
             document.getElementById('gradientCss').value = css;
             document.getElementById('gradientPreview').style.background = gradient;
+        }
+
+        document.getElementById('generateGradientBtn').addEventListener('click', function() {
+            updateGradient();
             showNotification('Gradient generated successfully');
         });
 
@@ -1659,7 +1611,7 @@ helloWorld();`,
         // Favicon Generator
         document.getElementById('generateFaviconBtn').addEventListener('click', function() {
             const fileInput = document.getElementById('faviconUpload');
-            const size = parseInt(document.getElementById('faviconSize').value);
+            const generateIco = document.getElementById('generateIco').checked;
             const generatePng = document.getElementById('generatePng').checked;
             const preview = document.getElementById('faviconPreview');
             const downloadLinks = document.getElementById('faviconDownloadLinks');
@@ -1669,42 +1621,75 @@ helloWorld();`,
                 return;
             }
             
+            // Get selected sizes
+            const selectedSizes = [];
+            document.querySelectorAll('.favicon-size:checked').forEach(checkbox => {
+                selectedSizes.push(parseInt(checkbox.value));
+            });
+            
+            if (selectedSizes.length === 0) {
+                showNotification('Please select at least one size', 'error');
+                return;
+            }
+            
             const file = fileInput.files[0];
             const reader = new FileReader();
             
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
-                    // Create canvas to resize image
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
+                    // Clear previous download links
+                    downloadLinks.innerHTML = '';
                     
-                    canvas.width = size;
-                    canvas.height = size;
+                    // Generate preview with the largest selected size
+                    const largestSize = Math.max(...selectedSizes);
+                    const previewCanvas = document.createElement('canvas');
+                    const previewCtx = previewCanvas.getContext('2d');
+                    
+                    previewCanvas.width = largestSize;
+                    previewCanvas.height = largestSize;
                     
                     // Draw image on canvas
-                    ctx.drawImage(img, 0, 0, size, size);
+                    previewCtx.drawImage(img, 0, 0, largestSize, largestSize);
                     
                     // Update preview
                     preview.innerHTML = '';
                     const previewImg = document.createElement('img');
-                    previewImg.src = canvas.toDataURL('image/png');
-                    previewImg.width = size;
-                    previewImg.height = size;
+                    previewImg.src = previewCanvas.toDataURL('image/png');
                     previewImg.style.maxWidth = '100%';
                     previewImg.style.height = 'auto';
                     preview.appendChild(previewImg);
                     
-                    // Generate download links
-                    downloadLinks.innerHTML = '';
+                    // Generate download links for each size
+                    selectedSizes.forEach(size => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = size;
+                        canvas.height = size;
+                        
+                        // Draw image on canvas
+                        ctx.drawImage(img, 0, 0, size, size);
+                        
+                        // Generate PNG if selected
+                        if (generatePng) {
+                            const pngLink = document.createElement('a');
+                            pngLink.href = canvas.toDataURL('image/png');
+                            pngLink.download = `favicon_${size}x${size}.png`;
+                            pngLink.className = 'btn btn-outline-primary';
+                            pngLink.innerHTML = `<i class="fas fa-download"></i> Download ${size}x${size} PNG`;
+                            downloadLinks.appendChild(pngLink);
+                        }
+                    });
                     
-                    if (generatePng) {
-                        const pngLink = document.createElement('a');
-                        pngLink.href = canvas.toDataURL('image/png');
-                        pngLink.download = `favicon_${size}x${size}.png`;
-                        pngLink.className = 'btn btn-outline-primary';
-                        pngLink.innerHTML = '<i class="fas fa-download"></i> Download PNG';
-                        downloadLinks.appendChild(pngLink);
+                    // Generate ICO if selected
+                    if (generateIco) {
+                        // Note: Generating ICO files requires additional libraries or server-side processing
+                        // For this demo, we'll just show a message
+                        const icoMessage = document.createElement('div');
+                        icoMessage.className = 'alert alert-info';
+                        icoMessage.textContent = 'ICO file generation requires additional processing. Please use an online ICO converter for best results.';
+                        downloadLinks.appendChild(icoMessage);
                     }
                     
                     showNotification('Favicon generated successfully');
@@ -2145,7 +2130,9 @@ helloWorld();`,
         });
 
         // Initialize the gradient preview on page load
-        document.getElementById('generateGradientBtn').click();
+        document.addEventListener('DOMContentLoaded', function() {
+            updateGradient();
+        });
     </script>
 </body>
 </html>
